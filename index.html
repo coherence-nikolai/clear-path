@@ -695,6 +695,67 @@ input[type=checkbox] {
 .skip-link { position: absolute; top: -999px; left: 8px; background: var(--green); color: #000; font-weight: 700; padding: 8px 14px; border-radius: var(--r-sm); font-size: 14px; z-index: 300; }
 .skip-link:focus { top: 8px; }
 
+/* ═══ AI TOOLS ═══════════════════════════════════════════════ */
+.ai-intro {
+  background: linear-gradient(135deg, var(--lav-dim), var(--sky-dim));
+  border: 1px solid rgba(184,168,216,.3); border-radius: var(--r-lg);
+  padding: 16px 18px; margin-bottom: 16px; font-size: 14px; line-height: 1.7;
+}
+.ai-intro strong { color: var(--lavender); }
+
+.ai-prompt-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px; margin-bottom: 10px;
+  transition: border-color .15s;
+}
+.ai-prompt-card:hover { border-color: rgba(184,168,216,.4); }
+.ai-prompt-card h3 {
+  font-size: 14px; font-weight: 700; margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ai-prompt-card p { font-size: 13px; color: var(--muted); margin-bottom: 10px; line-height: 1.6; }
+.ai-prompt-preview {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 10px 12px; margin-bottom: 10px;
+  font-size: 12px; color: var(--fg2); line-height: 1.65; font-family: var(--font-mono);
+  white-space: pre-wrap; max-height: 80px; overflow: hidden;
+  position: relative;
+}
+.ai-prompt-preview::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 24px; background: linear-gradient(transparent, var(--surface));
+}
+.ai-btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.ai-launch-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border-radius: var(--r-sm); font-size: 12px;
+  font-weight: 700; border: 1px solid var(--border); cursor: pointer;
+  text-decoration: none; font-family: var(--font-base);
+  transition: border-color .15s, background .15s, transform .12s;
+  background: var(--surface);  color: var(--fg);
+}
+.ai-launch-btn:hover { transform: translateY(-1px); }
+.ai-launch-btn.claude { border-color: rgba(184,168,216,.4); color: var(--lavender); background: var(--lav-dim); }
+.ai-launch-btn.claude:hover { background: rgba(184,168,216,.18); }
+.ai-launch-btn.chatgpt { border-color: rgba(130,212,160,.3); color: var(--green); background: var(--green-dim); }
+.ai-launch-btn.chatgpt:hover { background: var(--green-glow); }
+.ai-launch-btn.gemini { border-color: rgba(130,196,216,.3); color: var(--sky); background: var(--sky-dim); }
+.ai-launch-btn.gemini:hover { background: rgba(130,196,216,.2); }
+.ai-copy-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 13px; border-radius: var(--r-sm); font-size: 12px;
+  font-weight: 700; border: 1px solid var(--border); cursor: pointer;
+  background: var(--surface2); color: var(--muted); font-family: var(--font-base);
+  transition: border-color .15s, color .15s;
+}
+.ai-copy-btn:hover { border-color: var(--border-hi); color: var(--green); }
+.ai-tip {
+  background: var(--amber-dim); border: 1px solid rgba(232,192,122,.25);
+  border-radius: var(--r-sm); padding: 10px 14px;
+  font-size: 12px; color: var(--fg2); line-height: 1.6; margin-top: 14px;
+}
+.ai-tip strong { color: var(--amber); }
+
 /* ═══ STREAK / STATS BAR ══════════════════════════════════════ */
 .stats-bar {
   display: flex; gap: 8px; margin-bottom: 14px;
@@ -866,6 +927,8 @@ input[type=checkbox] {
   <button class="tile" data-nav="calm"><span class="tile-icon">🌊</span><div class="tile-label">Calm &amp; Focus<div class="tile-hint">Breathing &amp; grounding</div></div></button>
   <button class="tile c-amber" data-nav="stress"><span class="tile-icon">⏱️</span><div class="tile-label">Focus Timer<div class="tile-hint">Pomodoro &amp; strategies</div></div></button>
   <button class="tile c-lav" data-nav="support"><span class="tile-icon">🫂</span><div class="tile-label">Support Hub<div class="tile-hint">People &amp; resources</div></div></button>
+
+  <button class="tile" data-nav="ai" style="border-color:rgba(184,168,216,.3);background:var(--lav-dim)"><span class="tile-icon">🤖</span><div class="tile-label">AI Tools<div class="tile-hint">Smart writing prompts</div></div></button>
   <button class="tile c-rose" data-nav="finish" style="grid-column:1/-1"><span class="tile-icon">✅</span><div class="tile-label">Finish &amp; Submit<div class="tile-hint">Final checks before submitting</div></div></button>
 </div>
 ```
@@ -1378,6 +1441,186 @@ input[type=checkbox] {
 
 </div><!-- /app -->
 
+  <!-- ════ AI TOOLS ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-ai" aria-label="AI writing tools">
+    <div class="card">
+      <div class="card-head">
+        <div style="display:flex;align-items:flex-start;gap:12px;flex:1">
+          <span class="card-head-icon">🤖</span>
+          <div class="card-head-text">
+            <h2>AI Writing Tools</h2>
+            <p>Smart prompts — copy and paste into any free AI.</p>
+          </div>
+        </div>
+        <button class="btn sm" data-nav="home">← Home</button>
+      </div>
+      <div class="card-body">
+
+```
+    <div class="ai-intro">
+      These prompts are designed specifically for academic writing. <strong>Copy the prompt</strong>, then open your preferred AI below — Claude, ChatGPT, or Gemini are all free to use. Paste the prompt in and fill in your details.
+    </div>
+
+    <!-- PROMPT 1: Unpack my assignment -->
+    <div class="ai-prompt-card">
+      <h3>🧩 Unpack my assignment question</h3>
+      <p>Paste your question — the AI will identify the task word, suggest a structure, and flag what to include or leave out.</p>
+      <div class="ai-prompt-preview" id="prompt-unpack">I'm a university student. Please help me unpack this assignment question:
+```
+
+[PASTE YOUR QUESTION HERE]
+
+1. Identify the task word (e.g. analyse, discuss, evaluate) and explain what it’s asking me to do
+1. Identify the topic and any limits or scope (time period, location, group)
+1. Suggest a simple essay structure with 3-4 main points
+1. List 2-3 things I should NOT include based on the question
+   Keep your response clear and student-friendly.</div>
+   <div class="ai-btn-row">
+   <button class="ai-copy-btn" data-copy="prompt-unpack">📋 Copy prompt</button>
+   <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+   <a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+   <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+   </div>
+   </div>
+   
+   ```
+    <!-- PROMPT 2: Essay plan -->
+    <div class="ai-prompt-card">
+      <h3>📝 Build an essay plan</h3>
+      <p>Give it your topic and word count — it'll return a detailed paragraph-by-paragraph plan you can write to.</p>
+      <div class="ai-prompt-preview" id="prompt-plan">I'm writing a [WORD COUNT] word [ESSAY/REPORT] on the following topic:
+   ```
+
+[PASTE YOUR TOPIC OR QUESTION]
+
+Please create a detailed paragraph-by-paragraph plan. For each paragraph include:
+
+- What the paragraph covers
+- 1 key argument or point
+- 1 suggested source type (e.g. peer-reviewed study, government report)
+
+Include intro and conclusion in the plan. Keep it practical and easy to follow.</div>
+<div class="ai-btn-row">
+<button class="ai-copy-btn" data-copy="prompt-plan">📋 Copy prompt</button>
+<a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+<a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+<a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+</div>
+</div>
+
+```
+    <!-- PROMPT 3: Check my paragraph -->
+    <div class="ai-prompt-card">
+      <h3>🔍 Check a paragraph I've written</h3>
+      <p>Paste a paragraph — the AI will check if it has a clear argument, evidence, and links back to the question.</p>
+      <div class="ai-prompt-preview" id="prompt-para">I'm a university student. Please review this paragraph from my assignment:
+```
+
+[PASTE YOUR PARAGRAPH]
+
+The assignment question is: [PASTE QUESTION]
+
+Please check:
+
+1. Does it have a clear topic sentence?
+1. Is there evidence or reasoning to support the point?
+1. Does it link back to the question?
+1. Suggest one specific improvement
+
+Do NOT rewrite it for me — just give feedback I can use to improve it myself.</div>
+<div class="ai-btn-row">
+<button class="ai-copy-btn" data-copy="prompt-para">📋 Copy prompt</button>
+<a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+<a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+<a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+</div>
+</div>
+
+```
+    <!-- PROMPT 4: Explain a concept -->
+    <div class="ai-prompt-card">
+      <h3>💡 Explain a concept simply</h3>
+      <p>Struggling to understand something from your readings? This prompt gets you a plain-English explanation.</p>
+      <div class="ai-prompt-preview" id="prompt-explain">Please explain the following concept to me in plain English. I'm a university student and I'm finding it hard to understand from the textbook.
+```
+
+Concept: [PASTE CONCEPT OR TERM]
+
+Context (my subject/course): [OPTIONAL: e.g. Psychology, Business, Nursing]
+
+Please:
+
+1. Explain it simply, like you’re talking to someone hearing it for the first time
+1. Give one real-world example
+1. Explain why it matters for academic writing on this topic
+   Keep it under 200 words.</div>
+   <div class="ai-btn-row">
+   <button class="ai-copy-btn" data-copy="prompt-explain">📋 Copy prompt</button>
+   <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+   <a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+   <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+   </div>
+   </div>
+   
+   ```
+    <!-- PROMPT 5: Referencing help -->
+    <div class="ai-prompt-card">
+      <h3>📚 Fix my reference</h3>
+      <p>Paste a source you've used — the AI will format it correctly in APA 7 for you.</p>
+      <div class="ai-prompt-preview" id="prompt-ref">Please format the following source as an APA 7 reference list entry AND an in-text citation.
+   ```
+
+Source details:
+[PASTE WHAT YOU KNOW: author name(s), title, year, journal name, website, DOI, URL — whatever you have]
+
+Source type: [e.g. journal article / book / website / government report]
+
+If any details are missing, tell me what I need to find to complete it correctly. Do not guess missing information.</div>
+<div class="ai-btn-row">
+<button class="ai-copy-btn" data-copy="prompt-ref">📋 Copy prompt</button>
+<a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+<a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+<a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+</div>
+</div>
+
+```
+    <!-- PROMPT 6: Stuck / writer's block -->
+    <div class="ai-prompt-card">
+      <h3>🌀 I'm stuck — help me start</h3>
+      <p>Can't get going? This prompt helps you unstick without the AI writing it for you.</p>
+      <div class="ai-prompt-preview" id="prompt-stuck">I'm stuck on my assignment and I need help getting started — not having it written for me.
+```
+
+Assignment: [PASTE QUESTION OR TOPIC]
+What I’ve done so far: [DESCRIBE WHAT YOU HAVE, EVEN IF JUST NOTES]
+Where I’m stuck: [DESCRIBE THE SPECIFIC PROBLEM, e.g. “I don’t know how to start my intro” or “I have 3 points but don’t know which to put first”]
+
+Please:
+
+1. Help me identify ONE small thing I can do right now to move forward
+1. Ask me 2 questions that might help me think through the problem
+   Do NOT write the essay for me. I want to do the work — I just need unsticking.</div>
+   <div class="ai-btn-row">
+   <button class="ai-copy-btn" data-copy="prompt-stuck">📋 Copy prompt</button>
+   <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
+   <a class="ai-launch-btn chatgpt" href="https://chat.openai.com" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+   <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
+   </div>
+   </div>
+   
+   ```
+    <div class="ai-tip">
+      <strong>⚠️ Heads up:</strong> AI can get facts wrong — always check important claims against your readings or sources. Use AI to help you <em>think and plan</em>, not to replace your own work. Your university's academic integrity policy applies.
+    </div>
+   ```
+   
+      </div>
+    </div>
+
+  </section>
+
 <!-- BOTTOM NAV -->
 
 <nav class="bottom-nav" aria-label="Main navigation">
@@ -1387,6 +1630,7 @@ input[type=checkbox] {
     <button class="nav-btn" data-nav="understand"><span class="nav-icon">🧩</span>Understand</button>
     <button class="nav-btn" data-nav="calm"><span class="nav-icon">🌊</span>Calm</button>
     <button class="nav-btn" data-nav="stress"><span class="nav-icon">⏱️</span>Focus</button>
+    <button class="nav-btn" data-nav="ai"><span class="nav-icon">🤖</span>AI</button>
     <button class="nav-btn" data-nav="finish"><span class="nav-icon">✅</span>Finish</button>
   </div>
 </nav>
@@ -1518,7 +1762,7 @@ input[type=checkbox] {
   }
 
   /* ── NAVIGATION ─────────────────────────────────────── */
-  const SCREENS = ['home','dump','start','understand','calm','stress','support','finish'];
+  const SCREENS = ['home','dump','start','understand','calm','stress','support','ai','finish'];
 
   function go(id) {
     try {
@@ -2094,7 +2338,7 @@ input[type=checkbox] {
 
   /* ── SWIPE NAV (mobile) ─────────────────────────────── */
   let touchStartX = 0, touchStartY = 0;
-  const NAV_ORDER = ['home','dump','start','understand','calm','stress','support','finish'];
+  const NAV_ORDER = ['home','dump','start','understand','calm','stress','support','ai','finish'];
 
   document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; }, { passive: true });
   document.addEventListener('touchend', e => {
@@ -2106,6 +2350,27 @@ input[type=checkbox] {
     if (dx < 0 && idx < NAV_ORDER.length - 1) go(NAV_ORDER[idx + 1]);
     if (dx > 0 && idx > 0) go(NAV_ORDER[idx - 1]);
   }, { passive: true });
+
+  /* ── AI TOOLS — copy prompts ────────────────────────────── */
+  qsa('.ai-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = $(btn.dataset.copy);
+      if (!el) return;
+      const text = el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = orig, 2000);
+        showToast('Prompt copied — paste into your AI of choice ✓');
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        showToast('Prompt copied ✓');
+      });
+    });
+  });
 
   /* ── INIT ───────────────────────────────────────────── */
   go('home');
