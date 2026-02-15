@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Clear Path"/>
+<title>Clear Path · Academic Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lexend+Deca:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+<style>
+/* ═══ DESIGN TOKENS ═══════════════════════════════════════════ */
+:root {
+  /* DARK (default) */
+  --bg:          #0d1117;
+  --surface:     #161c24;
+  --surface2:    #1c242f;
+  --border:      rgba(255,255,255,.09);
+  --border-hi:   rgba(120,240,177,.35);
+  --fg:          #e8f2ee;
+  --fg2:         #c8ddd5;
+  --muted:       #8fa99c;
+  --shadow:      rgba(0,0,0,.4);
+
+  --green:       #78f0b1;
+  --green-dim:   rgba(120,240,177,.13);
+  --green-glow:  rgba(120,240,177,.22);
+  --amber:       #ffd166;
+  --amber-dim:   rgba(255,209,102,.12);
+  --rose:        #ff7b9c;
+  --rose-dim:    rgba(255,123,156,.10);
+  --sky:         #7ec8e3;
+  --sky-dim:     rgba(126,200,227,.12);
+  --lavender:    #b39ddb;
+  --lav-dim:     rgba(179,157,219,.12);
+
+  --r-sm:  10px;
+  --r:     16px;
+  --r-lg:  22px;
+
+  --font-base:   'Nunito', sans-serif;
+  --font-dyslex: 'Lexend Deca', sans-serif;
+  --font-mono:   'Space Mono', monospace;
+
+  --font-size:   17px;
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-smooth: cubic-bezier(.4,0,.2,1);
+
+  --grad-bg: radial-gradient(ellipse 120% 60% at 10% 0%, rgba(120,240,177,.06) 0%, transparent 60%),
+             radial-gradient(ellipse 80% 50% at 90% 100%, rgba(126,200,227,.05) 0%, transparent 55%);
+}
+
+[data-theme="light"] {
+  --bg:        #f2f6f4;
+  --surface:   #ffffff;
+  --surface2:  #edf4f0;
+  --border:    rgba(0,0,0,.09);
+  --border-hi: rgba(0,130,80,.4);
+  --fg:        #1a2e26;
+  --fg2:       #2d4a3e;
+  --muted:     #6b8c7e;
+  --shadow:    rgba(0,0,0,.1);
+  --green:     #1a8a55;
+  --green-dim: rgba(26,138,85,.1);
+  --green-glow:rgba(26,138,85,.2);
+  --amber:     #b07d00;
+  --amber-dim: rgba(176,125,0,.1);
+  --rose:      #c03060;
+  --rose-dim:  rgba(192,48,96,.08);
+  --sky:       #1a7a9a;
+  --sky-dim:   rgba(26,122,154,.1);
+  --lavender:  #6a4db0;
+  --lav-dim:   rgba(106,77,176,.1);
+  --grad-bg: radial-gradient(ellipse 120% 60% at 10% 0%, rgba(26,138,85,.05) 0%, transparent 60%);
+}
+
+/* ═══ FONT SIZE MODES ════════════════════════════════════════ */
+[data-fontsize="large"]  { --font-size: 19px; }
+[data-fontsize="xl"]     { --font-size: 22px; }
+[data-font="dyslexia"]   { --font-base: 'Lexend Deca', sans-serif; }
+
+/* ═══ RESET ══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-base);
+  background: var(--bg);
+  background-image: var(--grad-bg);
+  color: var(--fg);
+  min-height: 100dvh;
+  font-size: var(--font-size);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .3s, color .3s;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,.3); border-radius: 99px; }
+
+/* ═══ LAYOUT ═════════════════════════════════════════════════ */
+.app { max-width: 680px; margin: 0 auto; padding: 20px 16px 80px; }
+
+/* ═══ HEADER ═════════════════════════════════════════════════ */
+.app-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.app-header-left { display: flex; align-items: center; gap: 12px; }
+.app-logo {
+  width: 40px; height: 40px; border-radius: var(--r-sm);
+  background: var(--green-dim); border: 1px solid var(--border-hi);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.app-title { font-size: 20px; font-weight: 900; letter-spacing: -.3px; }
+.app-subtitle { font-size: 13px; color: var(--muted); }
+
+/* Settings toolbar */
+.settings-bar {
+  display: flex; align-items: center; gap: 6px;
+}
+.icon-btn {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--muted); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.icon-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+.icon-btn.active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+
+/* Settings panel */
+.settings-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 16px 18px; margin-bottom: 16px;
+  animation: fadeUp .22s var(--ease-smooth);
+}
+.settings-panel h3 { font-size: 14px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--muted); margin-bottom: 12px; }
+.settings-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.settings-row:last-child { margin-bottom: 0; }
+.settings-label { font-size: 13px; color: var(--muted); font-weight: 600; min-width: 90px; }
+.pill-btn {
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--muted); font-family: var(--font-base);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.pill-btn:hover, .pill-btn.active {
+  border-color: var(--green); color: var(--green); background: var(--green-dim);
+}
+.install-btn {
+  width: 100%; padding: 10px; border-radius: var(--r-sm);
+  border: 1px dashed var(--border-hi); background: var(--green-dim);
+  color: var(--green); font-family: var(--font-base); font-size: 14px;
+  font-weight: 700; cursor: pointer; transition: background .15s;
+}
+.install-btn:hover { background: var(--green-glow); }
+.install-btn:disabled { opacity: .4; cursor: default; }
+
+/* ═══ BREADCRUMB ═════════════════════════════════════════════ */
+.breadcrumb {
+  display: flex; gap: 2px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 18px; padding: 8px 12px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  font-size: 12px; overflow-x: auto; scrollbar-width: none;
+}
+.breadcrumb::-webkit-scrollbar { display: none; }
+.breadcrumb-step {
+  display: flex; align-items: center; gap: 4px; color: var(--muted); cursor: pointer;
+  padding: 3px 7px; border-radius: 6px; transition: background .15s, color .15s; white-space: nowrap;
+}
+.breadcrumb-step:hover { background: rgba(128,128,128,.1); color: var(--fg); }
+.breadcrumb-step.active { color: var(--green); font-weight: 800; }
+.breadcrumb-step .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); transition: background .15s; flex-shrink: 0;
+}
+.breadcrumb-step.active .dot { background: var(--green); }
+.breadcrumb-sep { color: rgba(128,128,128,.3); user-select: none; padding: 0 1px; }
+
+/* ═══ SCREENS ════════════════════════════════════════════════ */
+.screen { display: none; }
+.screen.active { display: block; animation: fadeUp .28s var(--ease-smooth) both; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ CARD ═══════════════════════════════════════════════════ */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden; margin-bottom: 14px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+.card-head {
+  padding: 15px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+.card-head-text h2 { font-size: 18px; font-weight: 900; }
+.card-head-text p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.card-body { padding: 16px 18px; }
+
+/* ═══ BLOCK ══════════════════════════════════════════════════ */
+.block {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 14px 16px; margin-bottom: 12px;
+}
+.block:last-child { margin-bottom: 0; }
+.block-title {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-weight: 800; font-size: 14px; margin-bottom: 8px;
+}
+
+/* ═══ BADGES ═════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex; align-items: center; font-size: 11px; font-weight: 700;
+  letter-spacing: .4px; text-transform: uppercase; padding: 3px 9px;
+  border-radius: 999px; border: 1px solid var(--border); color: var(--muted);
+  background: rgba(128,128,128,.05); white-space: nowrap;
+}
+.badge.green { color: var(--green); border-color: rgba(120,240,177,.3); background: var(--green-dim); }
+.badge.amber { color: var(--amber); border-color: rgba(255,209,102,.3); background: var(--amber-dim); }
+.badge.sky   { color: var(--sky);   border-color: rgba(126,200,227,.3); background: var(--sky-dim); }
+
+/* ═══ TILE GRID ══════════════════════════════════════════════ */
+.tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+@media (max-width: 420px) { .tile-grid { grid-template-columns: 1fr; } }
+
+.tile {
+  display: flex; align-items: center; gap: 11px; padding: 14px 13px;
+  border-radius: var(--r); border: 1px solid var(--border); background: var(--surface2);
+  color: var(--fg); font-size: 15px; font-weight: 700; text-align: left;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: border-color .18s, background .18s, transform .15s var(--ease-spring), box-shadow .18s;
+}
+.tile:hover {
+  border-color: var(--green); background: var(--green-dim);
+  transform: translateY(-2px); box-shadow: 0 4px 16px var(--green-glow);
+}
+.tile:active { transform: scale(.97); }
+.tile .tile-icon { font-size: 20px; flex-shrink: 0; }
+.tile .tile-label { line-height: 1.25; }
+.tile .tile-hint { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+.tile.c-amber:hover { border-color: var(--amber); background: var(--amber-dim); box-shadow: 0 4px 16px rgba(255,209,102,.15); }
+.tile.c-rose:hover  { border-color: var(--rose);  background: var(--rose-dim);  box-shadow: 0 4px 16px rgba(255,123,156,.12); }
+.tile.c-sky:hover   { border-color: var(--sky);   background: var(--sky-dim);   box-shadow: 0 4px 16px rgba(126,200,227,.15); }
+.tile.c-lav:hover   { border-color: var(--lavender); background: var(--lav-dim); }
+.tile.selected      { border-color: var(--green); background: var(--green-dim); }
+
+/* ═══ FEELING TILES (home) ═══════════════════════════════════ */
+.feeling-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+@media (max-width: 420px) { .feeling-grid { grid-template-columns: 1fr 1fr; } }
+.feeling-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 14px 10px; border-radius: var(--r); border: 1px solid var(--border);
+  background: var(--surface2); color: var(--fg); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: border-color .18s, background .18s, transform .15s var(--ease-spring);
+  text-align: center; line-height: 1.2;
+}
+.feeling-tile:hover { transform: translateY(-2px); }
+.feeling-tile .feeling-icon { font-size: 26px; }
+.feeling-tile.f-overwhelmed:hover { border-color: var(--rose); background: var(--rose-dim); }
+.feeling-tile.f-scattered:hover   { border-color: var(--amber); background: var(--amber-dim); }
+.feeling-tile.f-anxious:hover     { border-color: var(--lavender); background: var(--lav-dim); }
+.feeling-tile.f-flat:hover        { border-color: var(--sky); background: var(--sky-dim); }
+.feeling-tile.f-procrastinating:hover { border-color: var(--green); background: var(--green-dim); }
+.feeling-tile.f-clear:hover       { border-color: var(--green); background: var(--green-dim); }
+
+/* ═══ BUTTONS ════════════════════════════════════════════════ */
+button { font-family: var(--font-base); cursor: pointer; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px;
+  border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--surface2);
+  color: var(--fg); font-family: var(--font-base); font-size: 14px; font-weight: 700;
+  transition: border-color .15s, background .15s, transform .12s; white-space: nowrap;
+}
+.btn:hover { border-color: rgba(128,128,128,.3); transform: translateY(-1px); }
+.btn:active { transform: scale(.96); }
+.btn.primary { color: var(--green); border-color: rgba(120,240,177,.35); background: var(--green-dim); }
+.btn.primary:hover { background: var(--green-glow); }
+.btn.danger  { color: var(--rose); border-color: rgba(255,123,156,.3); background: var(--rose-dim); }
+.btn.sm { font-size: 12px; padding: 5px 10px; }
+.btn.full { width: 100%; justify-content: center; padding: 12px; font-size: 16px; }
+
+/* ═══ FORM ═══════════════════════════════════════════════════ */
+label { display: block; font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 5px; letter-spacing: .2px; }
+textarea, input:not([type=checkbox]):not([type=radio]), select {
+  width: 100%; padding: 10px 13px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); background: var(--surface2); color: var(--fg);
+  font-family: var(--font-base); font-size: var(--font-size); line-height: 1.5;
+  outline: none; transition: border-color .15s, box-shadow .15s; min-height: 44px;
+}
+textarea:focus, input:not([type=checkbox]):not([type=radio]):focus, select:focus {
+  border-color: var(--border-hi); box-shadow: 0 0 0 3px var(--green-dim);
+}
+textarea { min-height: 80px; resize: vertical; }
+select { cursor: pointer; }
+input[type=checkbox] {
+  width: 20px !important; height: 20px !important; padding: 0 !important;
+  border-radius: 5px; border: 2px solid rgba(128,128,128,.3);
+  background: transparent; accent-color: var(--green); cursor: pointer; flex-shrink: 0;
+}
+.form-group { margin-bottom: 14px; }
+
+/* ═══ STEP WIZARD (Understand) ═══════════════════════════════ */
+.wizard-progress {
+  display: flex; gap: 6px; align-items: center; margin-bottom: 18px;
+}
+.wizard-step-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--border);
+  transition: background .25s, transform .25s var(--ease-spring);
+}
+.wizard-step-dot.done  { background: var(--green); transform: scale(1.1); }
+.wizard-step-dot.active { background: var(--green); transform: scale(1.3); box-shadow: 0 0 0 3px var(--green-dim); }
+.wizard-step-line { flex: 1; height: 2px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.wizard-step-line-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width .4s var(--ease-smooth); }
+.wizard-step-label { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .3px; }
+
+.wizard-pane { display: none; animation: fadeUp .22s var(--ease-smooth); }
+.wizard-pane.active { display: block; }
+.wizard-question { font-size: 17px; font-weight: 800; margin-bottom: 5px; line-height: 1.35; }
+.wizard-hint { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+/* ═══ CHECKLIST ══════════════════════════════════════════════ */
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px; padding: 11px 13px;
+  border: 1px solid var(--border); border-radius: var(--r-sm); margin-bottom: 7px;
+  transition: border-color .15s, background .15s; cursor: pointer;
+}
+.check-item:hover { background: rgba(128,128,128,.04); border-color: rgba(128,128,128,.2); }
+.check-item.done { border-color: rgba(120,240,177,.28); background: rgba(120,240,177,.05); }
+.check-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+.check-label { flex: 1; font-size: 14px; line-height: 1.5; user-select: none; }
+.check-item input { margin-top: 2px; }
+
+/* ═══ PROGRESS RING ══════════════════════════════════════════ */
+.ring-wrap {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+  padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r);
+}
+.ring-svg { width: 64px; height: 64px; flex-shrink: 0; }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 3; }
+.ring-fill {
+  fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round;
+  transform: rotate(-90deg); transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s var(--ease-smooth), stroke .5s;
+}
+.ring-text { font-family: var(--font-mono); font-size: 11px; font-weight: 700; fill: var(--green); text-anchor: middle; dominant-baseline: middle; }
+.ring-info { flex: 1; }
+.ring-count { font-size: 22px; font-weight: 900; color: var(--fg); }
+.ring-count span { font-size: 14px; color: var(--muted); font-weight: 600; }
+.ring-message { font-size: 13px; color: var(--muted); margin-top: 3px; font-style: italic; transition: color .5s; }
+.ring-message.celebrate { color: var(--green); font-weight: 700; font-style: normal; }
+
+/* ═══ COMPLETION ═════════════════════════════════════════════ */
+.complete-banner {
+  text-align: center; padding: 20px; margin-bottom: 14px;
+  background: var(--green-dim); border: 1px solid var(--border-hi);
+  border-radius: var(--r-lg); animation: glow 2.5s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { box-shadow: 0 0 12px var(--green-glow); }
+  to   { box-shadow: 0 0 28px var(--green-glow), 0 0 8px var(--green-dim); }
+}
+.complete-banner h3 { font-size: 20px; font-weight: 900; color: var(--green); margin-bottom: 4px; }
+.complete-banner p  { font-size: 14px; color: var(--muted); }
+
+/* ═══ ORB ════════════════════════════════════════════════════ */
+.orb-wrap { display: flex; justify-content: center; margin: 16px 0 12px; }
+.orb {
+  width: 130px; height: 130px; border-radius: 50%;
+  border: 1px solid rgba(120,240,177,.25);
+  background: radial-gradient(circle at 40% 40%, var(--green-glow), var(--green-dim) 70%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--green);
+  transition: transform 3.6s cubic-bezier(.4,0,.2,1), box-shadow 3.6s ease;
+}
+.orb.inhale { transform: scale(1.2); box-shadow: 0 0 0 18px rgba(120,240,177,.06), 0 0 50px var(--green-dim); }
+.orb.exhale { transform: scale(.85); box-shadow: none; }
+
+/* ═══ INSIGHT BOX ════════════════════════════════════════════ */
+.insight {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 15px; margin-top: 12px; animation: fadeUp .22s var(--ease-smooth);
+}
+.insight-title {
+  font-weight: 900; font-size: 15px; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.insight-text {
+  font-size: 14px; line-height: 1.75; color: var(--fg2); white-space: pre-line;
+}
+
+/* ═══ KIND WORDS ═════════════════════════════════════════════ */
+.kind-words {
+  font-size: 16px; line-height: 2; color: var(--green); font-weight: 700;
+  padding: 20px; border-radius: var(--r); background: var(--green-dim);
+  border: 1px solid rgba(120,240,177,.2); text-align: center;
+  margin-top: 12px; display: none;
+}
+.kind-words.show { display: block; animation: fadeUp .2s var(--ease-smooth); }
+.kind-words div { margin-bottom: 2px; }
+
+/* ═══ NUDGE BANNER ═══════════════════════════════════════════ */
+.nudge {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  background: var(--amber-dim); border: 1px solid rgba(255,209,102,.3);
+  border-radius: var(--r-sm); margin-bottom: 14px; font-size: 13px;
+  color: var(--fg); animation: fadeUp .25s var(--ease-smooth);
+}
+.nudge-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.nudge-text { flex: 1; line-height: 1.5; }
+.nudge-text strong { color: var(--amber); }
+.nudge-close { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 2px; }
+
+/* ═══ TASK CHIPS ═════════════════════════════════════════════ */
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip {
+  display: inline-flex; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface2);
+  font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s, transform .12s var(--ease-spring);
+  font-family: var(--font-base);
+}
+.chip:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); transform: scale(1.05); }
+.chip.active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+
+/* ═══ TIMER ══════════════════════════════════════════════════ */
+.timer-face { text-align: center; padding: 18px 14px 12px; }
+.timer-mode { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.timer-time { font-family: var(--font-mono); font-size: 50px; font-weight: 700; line-height: 1; color: var(--green); transition: color .4s; }
+.timer-time.break { color: var(--sky); }
+.timer-hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
+.progress-bar-wrap { height: 3px; background: rgba(128,128,128,.15); border-radius: 99px; overflow: hidden; margin: 10px 0; }
+.progress-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), rgba(120,240,177,.7)); transition: width .95s linear; }
+
+/* ═══ HELPERS ════════════════════════════════════════════════ */
+.hidden { display: none !important; }
+.mt-10 { margin-top: 10px; }
+.mt-14 { margin-top: 14px; }
+.text-small { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+.section-label { font-size: 11px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+
+/* ═══ TOAST ══════════════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  background: var(--green); color: #0d1117; font-weight: 800; font-size: 14px;
+  padding: 9px 22px; border-radius: 999px; opacity: 0; pointer-events: none;
+  transition: opacity .2s, transform .22s var(--ease-spring); z-index: 200;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+[data-theme="light"] .toast { color: #fff; background: #1a8a55; }
+
+/* ═══ FOCUS / A11Y ═══════════════════════════════════════════ */
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 4px; }
+.skip-link { position: absolute; top: -999px; left: 8px; background: var(--green); color: #000; font-weight: 700; padding: 8px 14px; border-radius: var(--r-sm); font-size: 14px; z-index: 300; }
+.skip-link:focus { top: 8px; }
+</style>
+
+</head>
+
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<div class="app" id="main">
+
+  <!-- HEADER -->
+
+  <header class="app-header" role="banner">
+    <div class="app-header-left">
+      <div class="app-logo" aria-hidden="true">🧭</div>
+      <div>
+        <div class="app-title">Clear Path</div>
+        <div class="app-subtitle">Academic Skills · One step at a time</div>
+      </div>
+    </div>
+    <div class="settings-bar">
+      <button class="icon-btn" id="toggleSettings" aria-label="Settings" title="Settings">⚙️</button>
+    </div>
+  </header>
+
+  <!-- SETTINGS PANEL -->
+
+  <div id="settingsPanel" class="settings-panel hidden">
+    <h3>Accessibility &amp; Display</h3>
+    <div class="settings-row">
+      <span class="settings-label">Theme</span>
+      <button class="pill-btn" data-setting="theme" data-val="dark">🌙 Dark</button>
+      <button class="pill-btn" data-setting="theme" data-val="light">☀️ Light</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Font size</span>
+      <button class="pill-btn" data-setting="fontsize" data-val="normal">A</button>
+      <button class="pill-btn" data-setting="fontsize" data-val="large">A+</button>
+      <button class="pill-btn" data-setting="fontsize" data-val="xl">A++</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Reading font</span>
+      <button class="pill-btn" data-setting="font" data-val="default">Standard</button>
+      <button class="pill-btn" data-setting="font" data-val="dyslexia">Dyslexia-friendly</button>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Install app</span>
+      <button class="install-btn" id="installBtn">📲 Add to Home Screen</button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB NAV -->
+
+  <nav class="breadcrumb" id="breadcrumb" aria-label="Section navigation">
+    <div class="breadcrumb-step active" data-nav="home" role="button" tabindex="0"><div class="dot"></div>Home</div>
+    <span class="breadcrumb-sep">›</span>
+    <div class="breadcrumb-step" data-nav="start" role="button" tabindex="0"><div class="dot"></div>Start</div>
+    <span class="breadcrumb-sep">›</span>
+    <div class="breadcrumb-step" data-nav="understand" role="button" tabindex="0"><div class="dot"></div>Understand</div>
+    <span class="breadcrumb-sep">›</span>
+    <div class="breadcrumb-step" data-nav="calm" role="button" tabindex="0"><div class="dot"></div>Calm</div>
+    <span class="breadcrumb-sep">›</span>
+    <div class="breadcrumb-step" data-nav="stress" role="button" tabindex="0"><div class="dot"></div>Stress</div>
+    <span class="breadcrumb-sep">›</span>
+    <div class="breadcrumb-step" data-nav="finish" role="button" tabindex="0"><div class="dot"></div>Finish</div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════
+       HOME
+  ════════════════════════════════════════════ -->
+
+  <section class="screen active" id="screen-home" aria-label="Home">
+    <!-- Feeling check-in -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-text">
+          <h2>How are you feeling right now?</h2>
+          <p>Your answer will guide you to the right place.</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="feeling-grid">
+          <button class="feeling-tile f-overwhelmed" data-feeling="overwhelmed">
+            <span class="feeling-icon">😤</span>Overwhelmed
+          </button>
+          <button class="feeling-tile f-scattered" data-feeling="scattered">
+            <span class="feeling-icon">🌪</span>Scattered
+          </button>
+          <button class="feeling-tile f-anxious" data-feeling="anxious">
+            <span class="feeling-icon">😰</span>Anxious
+          </button>
+          <button class="feeling-tile f-flat" data-feeling="flat">
+            <span class="feeling-icon">😶</span>Flat / numb
+          </button>
+          <button class="feeling-tile f-procrastinating" data-feeling="procrastinating">
+            <span class="feeling-icon">🌀</span>Procrastinating
+          </button>
+          <button class="feeling-tile f-clear" data-feeling="clear">
+            <span class="feeling-icon">✨</span>Clear enough
+          </button>
+        </div>
+      </div>
+    </div>
+
+```
+<!-- Or navigate directly -->
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-text">
+      <h2>Or go directly to:</h2>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="tile-grid">
+      <button class="tile" data-nav="start"><span class="tile-icon">▶</span><div class="tile-label">Start<div class="tile-hint">Prepare &amp; begin</div></div></button>
+      <button class="tile c-sky" data-nav="understand"><span class="tile-icon">🧩</span><div class="tile-label">Understand<div class="tile-hint">Unpack the question</div></div></button>
+      <button class="tile" data-nav="calm"><span class="tile-icon">🌊</span><div class="tile-label">Calm &amp; Focus<div class="tile-hint">Breathing &amp; grounding</div></div></button>
+      <button class="tile c-amber" data-nav="stress"><span class="tile-icon">🫶</span><div class="tile-label">Manage Stress<div class="tile-hint">Strategies &amp; timers</div></div></button>
+      <button class="tile c-rose" data-nav="finish" style="grid-column:1/-1"><span class="tile-icon">✅</span><div class="tile-label">Finish<div class="tile-hint">Final checks before submitting</div></div></button>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       START
+  ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-start" aria-label="Prepare and begin">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-text">
+          <h2>Prepare &amp; Begin</h2>
+          <p>Check what you can. Then choose your first step.</p>
+        </div>
+        <button class="btn sm" data-nav="home">← Home</button>
+      </div>
+      <div class="card-body">
+        <div id="prepList" role="list" aria-label="Preparation checklist"></div>
+        <button class="btn sm mt-10" id="resetPrep">Reset checklist</button>
+        <div class="block mt-14">
+          <div class="block-title">Choose your starting point <span class="badge">no timer by default</span></div>
+          <p class="text-small">Feeling activated? Start with Calm. Feeling clear? Go to Understand.</p>
+          <div class="btn-row mt-10">
+            <button class="btn primary" data-nav="calm">Begin with Calm &amp; Focus</button>
+            <button class="btn" data-nav="understand">Begin with Understand</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       UNDERSTAND (wizard)
+  ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-understand" aria-label="Understand the assignment">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-text">
+          <h2>Unpack the Question</h2>
+          <p>One part at a time.</p>
+        </div>
+        <button class="btn sm" data-nav="home">← Home</button>
+      </div>
+      <div class="card-body">
+
+```
+    <!-- Wizard progress -->
+    <div class="wizard-progress" role="progressbar" aria-valuemin="1" aria-valuemax="3" id="wizardProgress">
+      <div class="wizard-step-dot active" id="wdot-0"></div>
+      <div class="wizard-step-line"><div class="wizard-step-line-fill" id="wline-0" style="width:0%"></div></div>
+      <div class="wizard-step-dot" id="wdot-1"></div>
+      <div class="wizard-step-line"><div class="wizard-step-line-fill" id="wline-1" style="width:0%"></div></div>
+      <div class="wizard-step-dot" id="wdot-2"></div>
+      <span class="wizard-step-label" id="wizardLabel">Step 1 of 3</span>
+    </div>
+
+    <!-- Step 0: Question + Task word -->
+    <div class="wizard-pane active" id="wpane-0">
+      <div class="wizard-question">What is the assignment question?</div>
+      <div class="wizard-hint">Paste or type it below. Even the first line is enough to start.</div>
+      <div class="form-group">
+        <textarea id="brief" placeholder="Paste your assignment question here…"></textarea>
+      </div>
+      <div class="btn-row" style="margin-bottom:12px">
+        <button class="btn sm" id="toggleExample">📋 See an example</button>
+      </div>
+      <div class="block hidden" id="exampleCard">
+        <div class="block-title">Example <span class="badge amber">tap "Use this"</span></div>
+        <div class="text-small" style="margin-bottom:4px"><strong>Question:</strong> Analyse the impact of social media on adolescent wellbeing in Australia since 2020.</div>
+        <div class="btn-row mt-10">
+          <button class="btn primary" id="useExample">Use this example</button>
+          <button class="btn" id="closeExample">Close</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="task">How are you being asked to approach it?</label>
+        <input id="task" placeholder="e.g., analyse, discuss, evaluate…" autocomplete="off"/>
+        <div id="task-help" class="text-small mt-10" style="min-height:18px"></div>
+      </div>
+      <div class="text-small" style="margin-bottom:6px">Quick-fill task words:</div>
+      <div class="chip-row" id="taskChips"></div>
+      <div class="btn-row mt-14">
+        <button class="btn primary" id="wNext0">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 1: Topic -->
+    <div class="wizard-pane" id="wpane-1">
+      <div class="wizard-question">What is the assignment about?</div>
+      <div class="wizard-hint">The general topic or subject area — not the argument, just the broad area.</div>
+      <div class="form-group">
+        <label for="topic">General topic</label>
+        <input id="topic" placeholder="e.g., stress and learning, climate policy…"/>
+      </div>
+      <div class="btn-row mt-14">
+        <button class="btn" id="wBack1">← Back</button>
+        <button class="btn primary" id="wNext1">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Limits + save -->
+    <div class="wizard-pane" id="wpane-2">
+      <div class="wizard-question">Are there any limits or scope?</div>
+      <div class="wizard-hint">Time period, location, group, theory, or method. These tell you what to <em>leave out</em>.</div>
+      <div class="form-group">
+        <label for="limit">Limits (optional)</label>
+        <input id="limit" placeholder="e.g., Australia, since 2020, mature-aged students…"/>
+      </div>
+      <div class="text-small mt-10" style="font-style:italic">💡 Limits help you avoid going too broad and losing marks.</div>
+      <div class="btn-row mt-14">
+        <button class="btn" id="wBack2">← Back</button>
+        <button class="btn primary" id="saveUnderstand">💾 Save &amp; Finish</button>
+        <span class="text-small" id="savedBadge" aria-live="polite" style="min-height:18px"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       CALM
+  ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-calm" aria-label="Calm and focus tools">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-text">
+          <h2>Calm &amp; Focus Tools</h2>
+          <p id="calmSubtitle">Pick one. You don't need to do all of them.</p>
+        </div>
+        <button class="btn sm" data-nav="home">← Home</button>
+      </div>
+      <div class="card-body">
+        <div class="tile-grid">
+          <button class="tile" data-calm="breath"><span class="tile-icon">🌬</span><div class="tile-label">Breath Anchor<div class="tile-hint">In 4, out 6</div></div></button>
+          <button class="tile" data-calm="scan"><span class="tile-icon">🧍</span><div class="tile-label">Body Scan<div class="tile-hint">Ground in the body</div></div></button>
+          <button class="tile" data-calm="wander"><span class="tile-icon">🧠</span><div class="tile-label">Mind Wandering<div class="tile-hint">Noticing builds focus</div></div></button>
+          <button class="tile" data-calm="note"><span class="tile-icon">🏷</span><div class="tile-label">Gentle Noting<div class="tile-hint">Naming creates space</div></div></button>
+          <button class="tile" data-calm="sense"><span class="tile-icon">👁</span><div class="tile-label">Six Senses<div class="tile-hint">Ground attention now</div></div></button>
+          <button class="tile" data-calm="pulse"><span class="tile-icon">🌊</span><div class="tile-label">Visual Reset<div class="tile-hint">Watch the orb</div></div></button>
+          <button class="tile" data-calm="kind" style="grid-column:1/-1"><span class="tile-icon">🫶</span><div class="tile-label">Kind Words<div class="tile-hint">Reminder that slow is okay</div></div></button>
+        </div>
+
+```
+    <div class="orb-wrap"><div class="orb exhale" id="orb" role="img" aria-label="Breathing guide">Ready</div></div>
+
+    <div class="insight hidden" id="calmInsight" role="region" aria-live="polite">
+      <div class="insight-title">
+        <span id="calmInsightIcon"></span>
+        <span id="calmInsightTitle"></span>
+        <span class="badge green" id="calmBadge">ready</span>
+      </div>
+      <div class="insight-text" id="calmInsightText"></div>
+    </div>
+
+    <div class="kind-words" id="kindWords" role="region" aria-live="polite"></div>
+
+    <div class="btn-row mt-14">
+      <button class="btn" data-nav="understand">Go to Understand</button>
+      <button class="btn" data-nav="start">Back to Start</button>
+    </div>
+    <p class="text-small mt-10">Need structure? Try <strong>Focus Cycles</strong> in Manage Stress.</p>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       STRESS
+  ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-stress" aria-label="Manage study stress">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-text">
+          <h2>Manage Study Stress</h2>
+          <p>Small strategies. Real results.</p>
+        </div>
+        <button class="btn sm" data-nav="home">← Home</button>
+      </div>
+      <div class="card-body">
+        <div class="tile-grid">
+          <button class="tile" data-stress="sleep"><span class="tile-icon">🛌</span><div class="tile-label">Sleep<div class="tile-hint">Memory &amp; emotion</div></div></button>
+          <button class="tile" data-stress="break"><span class="tile-icon">📵</span><div class="tile-label">Breaks<div class="tile-hint">Reduce drain</div></div></button>
+          <button class="tile" data-stress="move"><span class="tile-icon">🏃</span><div class="tile-label">Move<div class="tile-hint">Mood &amp; thinking</div></div></button>
+          <button class="tile" data-stress="plan"><span class="tile-icon">📅</span><div class="tile-label">Planning<div class="tile-hint">Reduce anxiety</div></div></button>
+          <button class="tile" data-stress="chunk"><span class="tile-icon">🧩</span><div class="tile-label">Chunking<div class="tile-hint">Small wins matter</div></div></button>
+          <button class="tile c-amber" data-stress="cycle"><span class="tile-icon">🕒</span><div class="tile-label">Focus Cycles<div class="tile-hint">Timer + structure</div></div></button>
+          <button class="tile c-sky" data-stress="support" style="grid-column:1/-1"><span class="tile-icon">🫂</span><div class="tile-label">Get Support<div class="tile-hint">Academic Skills, Studiosity &amp; more</div></div></button>
+        </div>
+
+```
+    <div class="insight hidden" id="stressInsight" role="region" aria-live="polite">
+      <div class="insight-title">
+        <span id="stressInsightTitle"></span>
+        <span class="badge amber" id="stressBadge">ready</span>
+      </div>
+      <div class="insight-text" id="stressInsightText"></div>
+    </div>
+
+    <div id="cycleBox" class="hidden mt-14">
+      <div class="block">
+        <div class="block-title">Focus Cycle Timer <span class="badge">optional</span></div>
+        <p class="text-small">Adjust or stop anytime. Stopping early is not failing.</p>
+        <div class="btn-row mt-10">
+          <div><label for="workMin" style="margin-bottom:4px">Work</label><select id="workMin" style="width:auto;min-width:95px"><option value="10">10 min</option><option value="15">15 min</option><option value="25" selected>25 min</option></select></div>
+          <div><label for="breakMin" style="margin-bottom:4px">Break</label><select id="breakMin" style="width:auto;min-width:95px"><option value="3">3 min</option><option value="5" selected>5 min</option><option value="10">10 min</option></select></div>
+        </div>
+        <div class="timer-face">
+          <div class="timer-mode" id="cycleMode">WORK</div>
+          <div class="timer-time" id="cycleTime" aria-live="polite" aria-atomic="true">25:00</div>
+          <div class="progress-bar-wrap"><div class="progress-bar" id="cycleBar" style="width:100%"></div></div>
+          <div class="timer-hint" id="cycleHint">Start a cycle. Stop early if you need to.</div>
+        </div>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn primary" id="cycleStart">▶ Start</button>
+          <button class="btn" id="cycleStop">⏸ Pause</button>
+          <button class="btn danger" id="cycleReset">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row mt-14">
+      <button class="btn" data-nav="finish">Go to Finish</button>
+      <button class="btn" data-nav="calm">Go to Calm &amp; Focus</button>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       FINISH
+  ════════════════════════════════════════════ -->
+
+  <section class="screen hidden" id="screen-finish" aria-label="Final submission checks">
+
+```
+<div id="completeBanner" class="complete-banner hidden" aria-live="polite">
+  <h3>You did this. ✓</h3>
+  <p>Every box checked. You showed up and did the work.</p>
+</div>
+
+<div id="finishNudge" class="nudge hidden">
+  <span class="nudge-icon">💡</span>
+  <div class="nudge-text"><strong>Have you unpacked the question yet?</strong> The Understand section can help you check you've answered directly before submitting.</div>
+  <button class="nudge-close" id="closeNudge" aria-label="Dismiss">✕</button>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-head-text">
+      <h2>Finish &amp; Submit</h2>
+      <p>Pick what applies to your assignment.</p>
+    </div>
+    <button class="btn sm" data-nav="home">← Home</button>
+  </div>
+  <div class="card-body">
+
+    <!-- Progress ring -->
+    <div class="ring-wrap" id="ringWrap">
+      <svg class="ring-svg" viewBox="0 0 36 36" aria-hidden="true">
+        <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+        <circle class="ring-fill" id="ringFill" cx="18" cy="18" r="15.9"
+          stroke-dasharray="100 100" stroke-dashoffset="100"/>
+        <text class="ring-text" id="ringPct" x="18" y="18.5">0%</text>
+      </svg>
+      <div class="ring-info">
+        <div class="ring-count" id="ringCount">0 <span id="ringTotal">of 14</span></div>
+        <div class="ring-message" id="ringMessage">Pick what applies to your work.</div>
+      </div>
+    </div>
+
+    <div id="finishList" role="list" aria-label="Final submission checklist"></div>
+    <button class="btn sm mt-10" id="resetFinish">Reset checklist</button>
+
+    <div class="block mt-14">
+      <div class="block-title">Last step <span class="badge">reduce risk</span></div>
+      <p class="text-small">If uncertain, tired, or stuck — book Academic Skills, or use a draft feedback service (e.g., Studiosity). Getting support is part of doing well.</p>
+    </div>
+  </div>
+</div>
+```
+
+  </section>
+
+</div><!-- /app -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── UTILS ─────────────────────────────────────────── */
+  const $ = id => document.getElementById(id);
+  const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+
+  function showToast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  function storage(key, val) {
+    if (val === undefined) {
+      try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+    }
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+  }
+
+  /* ── SETTINGS ──────────────────────────────────────── */
+  const SETTINGS_KEY = 'cp_settings';
+  const defaults = { theme: 'dark', fontsize: 'normal', font: 'default' };
+
+  function loadSettings() { return Object.assign({}, defaults, storage(SETTINGS_KEY) || {}); }
+
+  function applySettings(s) {
+    document.documentElement.dataset.theme    = s.theme;
+    document.documentElement.dataset.fontsize = s.fontsize;
+    document.documentElement.dataset.font     = s.font;
+    // Update active pills
+    qsa('.pill-btn').forEach(b => {
+      b.classList.toggle('active',
+        b.dataset.val === s[b.dataset.setting]);
+    });
+  }
+
+  function saveSetting(key, val) {
+    const s = loadSettings();
+    s[key] = val;
+    storage(SETTINGS_KEY, s);
+    applySettings(s);
+  }
+
+  applySettings(loadSettings());
+
+  $('toggleSettings').addEventListener('click', () => {
+    const p = $('settingsPanel');
+    p.classList.toggle('hidden');
+    $('toggleSettings').classList.toggle('active');
+  });
+
+  qsa('.pill-btn').forEach(b => {
+    b.addEventListener('click', () => saveSetting(b.dataset.setting, b.dataset.val));
+  });
+
+  /* ── PWA / INSTALL ─────────────────────────────────── */
+  let deferredPrompt = null;
+
+  // Inject manifest as data URI
+  const manifest = {
+    name: 'Clear Path', short_name: 'Clear Path',
+    start_url: '.', display: 'standalone',
+    background_color: '#0d1117', theme_color: '#0d1117',
+    description: 'Academic Skills support for neurodivergent students',
+    icons: [{ src: generateIcon(192), sizes: '192x192', type: 'image/png' },
+            { src: generateIcon(512), sizes: '512x512', type: 'image/png' }]
+  };
+
+  function generateIcon(size) {
+    try {
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0d1117';
+      ctx.fillRect(0, 0, size, size);
+      ctx.font = `${size * .55}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🧭', size / 2, size / 2);
+      return c.toDataURL('image/png');
+    } catch { return ''; }
+  }
+
+  const manifestLink = document.createElement('link');
+  manifestLink.rel = 'manifest';
+  manifestLink.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(manifest));
+  document.head.appendChild(manifestLink);
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    $('installBtn').disabled = false;
+  });
+
+  $('installBtn').disabled = true;
+  $('installBtn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') showToast('App installed! 🎉');
+      deferredPrompt = null;
+    } else {
+      showToast('To install: use your browser menu → "Add to Home Screen"');
+    }
+  });
+
+  // Register service worker via blob
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+const CACHE = 'clear-path-v4';
+self.addEventListener('install', e => {
+  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', self.location.href])));
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+});`;
+    try {
+      const blob = new Blob([swCode], { type: 'text/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    } catch {}
+  }
+
+  /* ── NAVIGATION ────────────────────────────────────── */
+  const SCREENS = ['home','start','understand','calm','stress','finish'];
+
+  function go(id) {
+    if (!SCREENS.includes(id)) return;
+    SCREENS.forEach(s => {
+      const el = $(`screen-${s}`);
+      if (!el) return;
+      el.classList.toggle('hidden', s !== id);
+      el.classList.toggle('active', s === id);
+    });
+    qsa('.breadcrumb-step').forEach(el =>
+      el.classList.toggle('active', el.dataset.nav === id)
+    );
+    if (id === 'finish')    initFinish();
+    if (id === 'start')     renderPrep();
+    if (id === 'understand') initWizard();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-nav]');
+    if (el) go(el.dataset.nav);
+  });
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-nav]:not(button)')) {
+      e.preventDefault(); go(e.target.dataset.nav);
+    }
+  });
+
+  /* ── FEELING ROUTER ────────────────────────────────── */
+  const FEELING_ROUTES = {
+    overwhelmed:    { screen: 'calm',     tool: 'breath', note: "You're overwhelmed. Let's start with breath." },
+    scattered:      { screen: 'calm',     tool: 'scan',   note: "When scattered, grounding helps first." },
+    anxious:        { screen: 'calm',     tool: 'pulse',  note: "Let's calm the nervous system first." },
+    flat:           { screen: 'stress',   tool: 'move',   note: "When flat, small movement can help." },
+    procrastinating:{ screen: 'start',    tool: null,     note: "Let's just get started, one tiny step." },
+    clear:          { screen: 'understand',tool: null,    note: "Great. Let's unpack the question." }
+  };
+
+  qsa('[data-feeling]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const feeling = btn.dataset.feeling;
+      const route = FEELING_ROUTES[feeling];
+      if (!route) return;
+      go(route.screen);
+      showToast(route.note);
+      if (route.tool && route.screen === 'calm') {
+        setTimeout(() => showCalm(route.tool), 350);
+      }
+      if (route.tool && route.screen === 'stress') {
+        setTimeout(() => showStress(route.tool), 350);
+      }
+    });
+  });
+
+  /* ── PREP CHECKLIST ────────────────────────────────── */
+  const PREP_ITEMS = [
+    'Set up your desk or workspace',
+    'Close extra browser tabs',
+    'Open your document or task',
+    'Read the question or task once',
+    'Choose your very first action'
+  ];
+  const PREP_KEY = 'cp_prep';
+
+  function loadPrep() {
+    const s = storage(PREP_KEY);
+    return (Array.isArray(s) && s.length === PREP_ITEMS.length) ? s : PREP_ITEMS.map(t => ({ t, done: false }));
+  }
+
+  function renderPrep() {
+    const c = $('prepList');
+    const items = loadPrep();
+    c.innerHTML = '';
+    items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'check-item' + (item.done ? ' done' : '');
+      row.setAttribute('role', 'listitem');
+      row.innerHTML = `<input type="checkbox" id="p${i}" ${item.done ? 'checked' : ''} aria-label="${item.t}">
+        <label class="check-label" for="p${i}">${item.t}</label>`;
+      row.querySelector('input').addEventListener('change', e => {
+        items[i].done = e.target.checked;
+        row.classList.toggle('done', items[i].done);
+        storage(PREP_KEY, items);
+      });
+      c.appendChild(row);
+    });
+  }
+
+  $('resetPrep').addEventListener('click', () => {
+    storage(PREP_KEY, PREP_ITEMS.map(t => ({ t, done: false })));
+    renderPrep(); showToast('Checklist reset ✓');
+  });
+
+  /* ── UNDERSTAND (wizard) ───────────────────────────── */
+  const UNDERSTAND_KEY = 'cp_understand';
+  const TASK_DEFS = {
+    analyse:   'Break into parts and explain how they connect.',
+    discuss:   'Explore different views with evidence.',
+    evaluate:  'Judge strengths and weaknesses using sources.',
+    reflect:   'Link personal experience with theory.',
+    describe:  'Give clear, detailed information.',
+    compare:   'Show similarities and differences.',
+    explain:   'Show how and why something happens.',
+    justify:   'Support your position with reasons.',
+    summarise: 'Present key points briefly.',
+    synthesise:'Combine sources to form a clear overall position.'
+  };
+
+  const loadUnderstand = () => storage(UNDERSTAND_KEY) || {};
+
+  let wizardStep = 0;
+
+  function initWizard() {
+    wizardStep = 0;
+    const u = loadUnderstand();
+    ['brief','task','topic','limit'].forEach(k => $(k).value = u[k] || '');
+    updateTaskHelp();
+    showWizardStep(0);
+  }
+
+  function showWizardStep(step) {
+    wizardStep = step;
+    qsa('[id^="wpane-"]').forEach((p, i) => p.classList.toggle('active', i === step));
+    // dots
+    [0,1,2].forEach(i => {
+      const dot = $(`wdot-${i}`);
+      dot.className = 'wizard-step-dot' + (i < step ? ' done' : i === step ? ' active' : '');
+    });
+    // lines
+    [0,1].forEach(i => $(`wline-${i}`).style.width = i < step ? '100%' : '0%');
+    $('wizardLabel').textContent = `Step ${step + 1} of 3`;
+  }
+
+  // Wizard nav
+  $('wNext0').addEventListener('click', () => showWizardStep(1));
+  $('wNext1').addEventListener('click', () => showWizardStep(2));
+  $('wBack1').addEventListener('click', () => showWizardStep(0));
+  $('wBack2').addEventListener('click', () => showWizardStep(1));
+
+  function updateTaskHelp() {
+    const k = ($('task').value || '').toLowerCase().trim();
+    $('task-help').textContent = TASK_DEFS[k] ? 'Meaning: ' + TASK_DEFS[k] : '';
+    qsa('.chip').forEach(c => c.classList.toggle('active', c.dataset.word === k));
+  }
+
+  function saveUnderstand() {
+    storage(UNDERSTAND_KEY, {
+      brief: $('brief').value, task: $('task').value,
+      topic: $('topic').value, limit: $('limit').value
+    });
+    showToast('Saved ✓');
+    const badge = $('savedBadge');
+    badge.textContent = '✓ Saved';
+    clearTimeout(badge._t);
+    badge._t = setTimeout(() => badge.textContent = '', 2500);
+  }
+
+  // Build chips
+  const chipRow = $('taskChips');
+  Object.keys(TASK_DEFS).forEach(word => {
+    const chip = document.createElement('button');
+    chip.className = 'chip'; chip.type = 'button';
+    chip.textContent = word; chip.dataset.word = word;
+    chip.addEventListener('click', () => { $('task').value = word; updateTaskHelp(); });
+    chipRow.appendChild(chip);
+  });
+
+  $('task').addEventListener('input', updateTaskHelp);
+  $('saveUnderstand').addEventListener('click', saveUnderstand);
+
+  const exCard = $('exampleCard');
+  $('toggleExample').addEventListener('click', () => exCard.classList.toggle('hidden'));
+  $('closeExample').addEventListener('click',  () => exCard.classList.add('hidden'));
+  $('useExample').addEventListener('click', () => {
+    $('brief').value = 'Analyse the impact of social media on adolescent wellbeing in Australia since 2020.';
+    $('task').value  = 'analyse';
+    $('topic').value = 'Social media and adolescent wellbeing';
+    $('limit').value = 'Australia; since 2020';
+    saveUnderstand();
+    exCard.classList.add('hidden');
+    updateTaskHelp();
+  });
+
+  /* ── CALM ──────────────────────────────────────────── */
+  const CALM_MAP = {
+    breath: { icon:'🌬', title:'Breath Anchor',   text: 'Why: Longer exhales activate the parasympathetic nervous system.\n\nTry: Breathe in for 4 counts, out for 6. Repeat 6 times. If your mind wanders — that\'s normal. Just return once.\n\nThen: pick one small task.' },
+    scan:   { icon:'🧍', title:'Body Scan',       text: 'Why: Brings attention out of racing thoughts and into the present.\n\nTry: Scan slowly from feet → legs → back → shoulders → face. No forcing. Just noticing.\n\nThen: choose one small next step.' },
+    wander: { icon:'🧠', title:'Mind Wandering',  text: 'Why: Noticing where attention goes builds awareness over time.\n\nTry: Notice where your mind just went — worry, planning, memory? Curiosity is the practice.\n\nThen: return gently to breath.' },
+    note:   { icon:'🏷', title:'Gentle Noting',   text: 'Why: Naming what you experience creates a small space from it.\n\nTry: Label once — thinking, hearing, feeling, judging, imagining. Say it softly.\n\nThen: return to your anchor.' },
+    sense:  { icon:'👁', title:'Six Senses',      text: 'Why: Anchors scattered attention in the present moment.\n\nTry: Notice one sound, one sight, one body sensation, one thought or image. Take your time.\n\nThen: return to breath.' },
+    pulse:  { icon:'🌊', title:'Visual Reset',    text: 'Why: Visual rhythm can settle attention and regulate the nervous system.\n\nTry: Watch the circle expand and contract for 30–60 seconds. No thinking required.\n\nThen: pick one small task.' },
+    kind:   null
+  };
+
+  const KIND_WORDS = ['You are doing enough.','Slow is allowed.','This is hard — not failure.','Pick the next tiny step. Then stop.'];
+
+  let orbTimers = [];
+  function clearOrbTimers() { orbTimers.forEach(clearTimeout); orbTimers = []; }
+
+  function startOrbCycle() {
+    clearOrbTimers();
+    const orb = $('orb');
+    function inhale() { orb.className='orb inhale'; orb.textContent='Breathe in…'; orbTimers.push(setTimeout(exhale, 4000)); }
+    function exhale() { orb.className='orb exhale'; orb.textContent='Breathe out…'; orbTimers.push(setTimeout(inhale, 6000)); }
+    inhale();
+  }
+
+  function stopOrb() {
+    clearOrbTimers();
+    $('orb').className='orb exhale';
+    $('orb').textContent='Ready';
+  }
+
+  function showCalm(key) {
+    $('kindWords').classList.remove('show');
+    $('calmInsight').classList.add('hidden');
+    if (key === 'kind') {
+      $('kindWords').innerHTML = KIND_WORDS.map(l => `<div>${l}</div>`).join('');
+      $('kindWords').classList.add('show');
+      stopOrb();
+    } else {
+      const d = CALM_MAP[key];
+      $('calmInsightIcon').textContent  = d.icon;
+      $('calmInsightTitle').textContent = d.title;
+      $('calmInsightText').textContent  = d.text;
+      $('calmBadge').textContent        = 'ready';
+      $('calmInsight').classList.remove('hidden');
+      (key === 'pulse' || key === 'breath') ? startOrbCycle() : stopOrb();
+    }
+  }
+
+  qsa('[data-calm]').forEach(b => b.addEventListener('click', () => showCalm(b.dataset.calm)));
+
+  /* ── STRESS ────────────────────────────────────────── */
+  const STRESS_MAP = {
+    sleep:   { title:'Sleep',         text: 'Why: Sleep consolidates memory and resets emotional regulation.\n\nTry tonight: Phone off 30 min before bed. Consistent sleep/wake time. Dark, cool room. One good night makes a measurable difference.' },
+    break:   { title:'Breaks',        text: 'Why: Sustained focus without breaks depletes working memory.\n\nTry: 15–25 min work → stand → stretch briefly → return. Keep your phone out of reach during work blocks.' },
+    move:    { title:'Move',          text: 'Why: Even brief movement boosts mood and improves thinking.\n\nTry: 5-min walk, shoulder rolls, light stretching. No "workout" required — brief is enough.' },
+    plan:    { title:'Planning',      text: 'Why: Unclear next steps create ambient anxiety.\n\nTry: Write one thing to do today. One thing for tomorrow. That\'s enough. A short list works better than a long one.' },
+    chunk:   { title:'Chunking',      text: 'Why: Large tasks overwhelm working memory and make starting feel impossible.\n\nTry: Open file → add title → write one sentence. Each small win reduces the wall.' },
+    cycle:   { title:'Focus Cycles',  text: 'Why: Short structured cycles reduce mental fatigue.\n\nTry: 25/5, 15/5, or 10/3 — work then break. Adjust anytime. Stopping early is not failing.' },
+    support: { title:'Get Support',   text: 'Options available to you:\n\n• Book an Academic Skills appointment\n• Use a draft feedback service (e.g., Studiosity)\n• Ask your lecturer a specific question\n• Contact student wellbeing services\n\nGetting support is part of succeeding.' }
+  };
+
+  function showStress(key) {
+    const d = STRESS_MAP[key];
+    $('stressInsightTitle').textContent = d.title;
+    $('stressBadge').textContent        = 'ready';
+    $('stressInsightText').textContent  = d.text;
+    $('stressInsight').classList.remove('hidden');
+    const box = $('cycleBox');
+    if (key === 'cycle') { box.classList.remove('hidden'); syncCycle(); }
+    else { box.classList.add('hidden'); stopCycle(); }
+  }
+
+  qsa('[data-stress]').forEach(b => b.addEventListener('click', () => showStress(b.dataset.stress)));
+
+  /* ── TIMER ─────────────────────────────────────────── */
+  let cycleTimer = null, cycleMode = 'work', remaining = 1500, totalSecs = 1500;
+
+  const fmtTime = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+
+  function syncCycle() {
+    const w = parseInt($('workMin').value)*60;
+    const b = parseInt($('breakMin').value)*60;
+    remaining = totalSecs = (cycleMode === 'work' ? w : b);
+    updateCycleUI();
+  }
+
+  function updateCycleUI() {
+    $('cycleTime').textContent  = fmtTime(remaining);
+    $('cycleMode').textContent  = cycleMode === 'work' ? 'WORK' : 'BREAK';
+    $('cycleTime').className    = 'timer-time' + (cycleMode === 'break' ? ' break' : '');
+    $('cycleBar').style.width   = (totalSecs > 0 ? (remaining/totalSecs)*100 : 100) + '%';
+  }
+
+  function startCycle() {
+    if (cycleTimer) return;
+    $('cycleHint').textContent = 'Running. Pause anytime.';
+    cycleTimer = setInterval(() => {
+      remaining = Math.max(0, remaining - 1);
+      updateCycleUI();
+      if (remaining === 0) {
+        const wasWork = cycleMode === 'work';
+        cycleMode = wasWork ? 'break' : 'work';
+        const w = parseInt($('workMin').value)*60;
+        const b = parseInt($('breakMin').value)*60;
+        remaining = totalSecs = (cycleMode === 'work' ? w : b);
+        $('cycleHint').textContent = wasWork ? '🛑 Break time — step away.' : '▶ Back to work when ready.';
+        updateCycleUI();
+      }
+    }, 1000);
+  }
+
+  function stopCycle() { clearInterval(cycleTimer); cycleTimer = null; $('cycleHint').textContent = 'Paused.'; }
+  function resetCycle() { stopCycle(); cycleMode='work'; syncCycle(); $('cycleHint').textContent='Start a cycle. Stop early if you need to.'; }
+
+  $('workMin').addEventListener('change', resetCycle);
+  $('breakMin').addEventListener('change', resetCycle);
+  $('cycleStart').addEventListener('click', startCycle);
+  $('cycleStop').addEventListener('click', stopCycle);
+  $('cycleReset').addEventListener('click', resetCycle);
+
+  /* ── FINISH ────────────────────────────────────────── */
+  const FINISH_ITEMS = [
+    'Check the rubric / marking criteria',
+    'Answered the question directly',
+    'Used the required sources or readings',
+    'Met word count requirements',
+    'Structure matches the task (intro/body/conclusion where needed)',
+    'Proofread for clarity — read aloud if possible',
+    'Spellcheck and grammar check done',
+    'In-text citations match the reference list',
+    'Referencing style checked (APA or required format)',
+    'Used a draft feedback service if available (e.g., Studiosity)',
+    'Applied feedback from your last assessment',
+    'Saved a final copy (and exported to PDF if required)',
+    'Uploaded and confirmed submission receipt',
+    'Booked Academic Skills support if needed'
+  ];
+  const FINISH_KEY = 'cp_finish';
+
+  const RING_MESSAGES = [
+    [0,   0,   'Pick what applies to your work.'],
+    [1,   4,   'Good start. Keep going.'],
+    [5,   9,   "You're making real progress."],
+    [10,  12,  "Nearly there. You've got this."],
+    [13,  13,  "One more. Almost done."],
+    [14,  14,  "You did this. ✓"]
+  ];
+
+  function getRingMessage(n) {
+    for (const [min, max, msg] of RING_MESSAGES) {
+      if (n >= min && n <= max) return msg;
+    }
+    return '';
+  }
+
+  function updateRing(items) {
+    const n     = items.filter(x => x.done).length;
+    const total = items.length;
+    const pct   = Math.round((n / total) * 100);
+    const offset = 100 - pct;
+
+    $('ringFill').setAttribute('stroke-dashoffset', offset);
+    $('ringPct').textContent  = pct + '%';
+    $('ringCount').innerHTML  = `${n} <span>of ${total}</span>`;
+
+    const msg     = getRingMessage(n);
+    const msgEl   = $('ringMessage');
+    msgEl.textContent = msg;
+    msgEl.classList.toggle('celebrate', n === total);
+
+    // Completion banner
+    const banner = $('completeBanner');
+    if (n === total) {
+      banner.classList.remove('hidden');
+    } else {
+      banner.classList.add('hidden');
+    }
+  }
+
+  function loadFinish() {
+    const s = storage(FINISH_KEY);
+    return (Array.isArray(s) && s.length === FINISH_ITEMS.length) ? s : FINISH_ITEMS.map(t => ({ t, done: false }));
+  }
+
+  function initFinish() {
+    // State awareness nudge
+    const u = loadUnderstand();
+    const understandEmpty = !u.brief && !u.task && !u.topic;
+    $('finishNudge').classList.toggle('hidden', !understandEmpty);
+
+    const container = $('finishList');
+    const items = loadFinish();
+    container.innerHTML = '';
+    updateRing(items);
+
+    items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'check-item' + (item.done ? ' done' : '');
+      row.setAttribute('role', 'listitem');
+      row.innerHTML = `<input type="checkbox" id="f${i}" ${item.done ? 'checked' : ''} aria-label="${item.t}">
+        <label class="check-label" for="f${i}">${item.t}</label>`;
+      row.querySelector('input').addEventListener('change', e => {
+        items[i].done = e.target.checked;
+        row.classList.toggle('done', items[i].done);
+        storage(FINISH_KEY, items);
+        updateRing(items);
+      });
+      container.appendChild(row);
+    });
+  }
+
+  $('closeNudge').addEventListener('click', () => $('finishNudge').classList.add('hidden'));
+
+  $('resetFinish').addEventListener('click', () => {
+    storage(FINISH_KEY, FINISH_ITEMS.map(t => ({ t, done: false })));
+    initFinish(); showToast('Checklist reset ✓');
+  });
+
+  /* ── INIT ──────────────────────────────────────────── */
+  go('home');
+
+})();
+</script>
+
+</body>
+</html>
