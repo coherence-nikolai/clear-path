@@ -1521,21 +1521,24 @@ input[type=checkbox] {
   const SCREENS = ['home','dump','start','understand','calm','stress','support','finish'];
 
   function go(id) {
-    if (!SCREENS.includes(id)) return;
-    SCREENS.forEach(s => {
-      const el = $(`screen-${s}`);
-      if (!el) return;
-      el.classList.toggle('hidden', s !== id);
-      el.classList.toggle('active', s === id);
-    });
-    // Bottom nav
-    qsa('.nav-btn').forEach(el => el.classList.toggle('active', el.dataset.nav === id));
-    if (id === 'finish')    initFinish();
-    if (id === 'start')     renderPrep();
-    if (id === 'understand') initWizard();
-    if (id === 'dump')      renderDump();
-    updateStats();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      if (!SCREENS.includes(id)) return;
+      SCREENS.forEach(s => {
+        const el = $(`screen-${s}`);
+        if (!el) return;
+        el.classList.toggle('hidden', s !== id);
+        el.classList.toggle('active', s === id);
+      });
+      qsa('.nav-btn').forEach(el => el.classList.toggle('active', el.dataset.nav === id));
+      if (id === 'finish')     initFinish();
+      if (id === 'start')      renderPrep();
+      if (id === 'understand') initWizard();
+      if (id === 'dump')       renderDump();
+      updateStats();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('[ClearPath] go("' + id + '") failed:', err);
+    }
   }
 
   document.addEventListener('click', e => {
@@ -2091,7 +2094,7 @@ input[type=checkbox] {
 
   /* ── SWIPE NAV (mobile) ─────────────────────────────── */
   let touchStartX = 0, touchStartY = 0;
-  const NAV_ORDER = ['home','dump','understand','calm','stress','support','finish'];
+  const NAV_ORDER = ['home','dump','start','understand','calm','stress','support','finish'];
 
   document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY; }, { passive: true });
   document.addEventListener('touchend', e => {
