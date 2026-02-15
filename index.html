@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Clear Path · Academic Skills</title>
+<title>Clear Path · Academic Skills (Adaptive)</title>
 <meta name="theme-color" content="#0d1117"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -279,6 +279,10 @@ input[type=checkbox] {
 .text-small { font-size: 14px; color: var(--muted); line-height: 1.65; }
 .divider { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
 
+/* ─── PROGRESS ─────────────────────────────────────────────── */
+.progress{ height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+.progress-bar{ height: 100%; width: 0%; background: linear-gradient(90deg, rgba(120,240,177,.35), rgba(120,240,177,.85)); border-radius: 999px; transition: width .25s ease; }
+
 /* ─── TOAST ─────────────────────────────────────────────────── */
 .toast {
   position: fixed; bottom: 24px; left: 50%;
@@ -463,6 +467,13 @@ input[type=checkbox] {
         <div class="card-head-text">
           <h2>Calm &amp; Focus Tools</h2>
           <p>Pick one. You don't have to do all of them.</p>
+        <p class="text-small mt-10">How are you feeling right now?</p>
+        <div class="chip-row" aria-label="How are you feeling options">
+          <button class="chip" type="button" data-state="overwhelmed">Overwhelmed</button>
+          <button class="chip" type="button" data-state="scattered">Scattered</button>
+          <button class="chip" type="button" data-state="avoiding">Avoiding</button>
+          <button class="chip" type="button" data-state="flat">Flat</button>
+        </div>
         </div>
         <button class="btn sm" data-nav="home">← Home</button>
       </div>
@@ -493,6 +504,7 @@ input[type=checkbox] {
         <div class="btn-row mt-14">
           <button class="btn" data-nav="understand">Return to Understand</button>
           <button class="btn" data-nav="start">Back to Start</button>
+          <a class="btn" id="openFieldFromCalm" href="https://coherence-nikolai.github.io/field/" target="_blank" rel="noopener">Open Field Reset</a>
         </div>
         <p class="text-small mt-10">Need structure? Try <strong>Focus Cycles</strong> in Manage Stress.</p>
       </div>
@@ -567,6 +579,7 @@ input[type=checkbox] {
         <div class="btn-row mt-14">
           <button class="btn" data-nav="finish">Go to Finish</button>
           <button class="btn" data-nav="calm">Go to Calm &amp; Focus</button>
+          <a class="btn" id="openFieldFromStress" href="https://coherence-nikolai.github.io/field/" target="_blank" rel="noopener">Open Field Reset</a>
         </div>
       </div>
     </div>
@@ -584,6 +597,10 @@ input[type=checkbox] {
       </div>
       <div class="card-body">
         <div class="finish-count" id="finishCount" aria-live="polite"></div>
+        <div class="progress mt-10" aria-label="Finish checklist progress">
+          <div class="progress-bar" id="finishBar"></div>
+        </div>
+        <div class="text-small mt-8" id="finishPercent"></div>
         <div id="finishList" role="list" aria-label="Final submission checklist"></div>
         <button class="btn sm mt-10" id="resetFinish">Reset checklist</button>
         <div class="block mt-14">
@@ -624,6 +641,20 @@ input[type=checkbox] {
 
   function go(id) {
     if (!SCREENS.includes(id)) return;
+    // Adaptive hints
+    if (id === 'finish') {
+      const u = storage(UNDERSTAND_KEY) || {};
+      const hasUnpacked = !!(u.brief || u.task || u.topic || u.limit);
+      const f = storage(FINISH_KEY) || [];
+      const done = Array.isArray(f) ? f.filter(x=>x.done).length : 0;
+      if (!hasUnpacked) showToast('Tip: Unpack the question in Understand before final checks.');
+      if (done === 0) showToast('Finish works best as a quick sweep — tick what applies.');
+    }
+    if (id === 'understand') {
+      const u = storage(UNDERSTAND_KEY) || {};
+      if (!u.brief) showToast('Paste the question first — then unpack task word, topic, limits.');
+    }
+
     SCREENS.forEach(s => {
       const el = $(`screen-${s}`);
       if (!el) return;
@@ -651,7 +682,29 @@ input[type=checkbox] {
     }
   });
 
-  /* ── PREP CHECKLIST ────────────────────────────── */
+    // Feelings-to-tool routing (Calm & Focus)
+  const STATE_TO_CALM = {
+    overwhelmed: { tool: 'breath', msg: 'Overwhelmed → start with breath (in 4, out 6).' },
+    scattered:   { tool: 'sense',  msg: 'Scattered → ground in the senses.' },
+    avoiding:    { tool: 'kind',   msg: 'Avoiding → kind words, then one tiny step.' },
+    flat:        { tool: 'pulse',  msg: 'Flat → visual reset to re-engage gently.' }
+  };
+
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-state]');
+    if (!btn) return;
+    const key = btn.dataset.state;
+    const pick = STATE_TO_CALM[key];
+    if (!pick) return;
+    go('calm');
+    setTimeout(() => {
+      showCalm(pick.tool);
+      showToast(pick.msg);
+    }, 60);
+  });
+
+
+/* ── PREP CHECKLIST ────────────────────────────── */
   const PREP_KEY   = 'cp_prep';
   const PREP_ITEMS = [
     'Set up your desk or workspace',
@@ -931,7 +984,19 @@ input[type=checkbox] {
     container.innerHTML = '';
     const updateCount = () => {
       const n = items.filter(x => x.done).length;
+      const total = items.length || 1;
+      const pct = Math.round((n/total)*100);
       $('finishCount').innerHTML = `<span>${n}</span> of ${items.length} checked`;
+      const bar = $('finishBar'); const pctEl = $('finishPercent');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '% complete';
+      if (n === items.length && items.length > 0 && !container.dataset.doneOnce) {
+        container.dataset.doneOnce = '1';
+        showToast('All done ✓ Submit with confidence.');
+      }
+      if (n < items.length) {
+        container.dataset.doneOnce = '';
+      }
     };
     updateCount();
     items.forEach((item, i) => {
