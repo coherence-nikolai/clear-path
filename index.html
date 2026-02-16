@@ -103,6 +103,9 @@
   --border: rgba(0,0,0,.2);
   --muted: #3a6048;
 }
+[data-bionic="on"] .bionic-text b {
+  font-weight: 700;
+}
 
 @media (prefers-reduced-motion: reduce), [data-motion="reduce"] * {
   animation-duration: .01ms !important;
@@ -1291,7 +1294,13 @@ body.focus-laser .screen.active > .card:not(:first-child) {
       <span class="settings-label">Motion</span>
       <button class="pill-btn" data-setting="motion" data-val="normal">Normal</button>
       <button class="pill-btn" data-setting="motion" data-val="reduce">Reduce</button>
+    </div>    
+<div class="settings-row">
+      <span class="settings-label">Bionic Reading</span>
+      <button class="pill-btn" data-setting="bionic" data-val="off">Off</button>
+      <button class="pill-btn" data-setting="bionic" data-val="on">On</button>
     </div>
+
     <p class="settings-section-title mt-10">App</p>
     <div class="settings-row">
       <span class="settings-label">Install app</span>
@@ -2134,18 +2143,24 @@ Please:
 
   /* ── SETTINGS ──────────────────────────────────────── */
   const SETTINGS_KEY = 'cp_settings';
-  const defaults = { theme:'dark', fontsize:'normal', font:'default', contrast:'normal', motion:'normal' };
+    const defaults = { theme:'dark', fontsize:'normal', font:'default', contrast:'normal', motion:'normal', bionic:'off' };
+
 
   function loadSettings() { return Object.assign({}, defaults, storage(SETTINGS_KEY) || {}); }
 
-  function applySettings(s) {
+    function applySettings(s) {
     const html = document.documentElement;
     html.dataset.theme    = s.theme;
     html.dataset.fontsize = s.fontsize;
     html.dataset.font     = s.font;
     html.dataset.contrast = s.contrast;
     html.dataset.motion   = s.motion;
+    html.dataset.bionic   = s.bionic;
     qsa('.pill-btn').forEach(b => b.classList.toggle('active', b.dataset.val === s[b.dataset.setting]));
+    if (s.bionic === 'on') applyBionicReading();
+    else removeBionicReading();
+  }
+
   }
 
   function saveSetting(key, val) {
@@ -3096,11 +3111,51 @@ Please:
   renderSuccesses();
   restoreContext();
 
+  /* ── BIONIC READING ─────────────────────────────────── */
+  function bionicWord(word) {
+    if (word.length <= 3) return `<b>${word.slice(0, 1)}</b>${word.slice(1)}`;
+    const boldLen = Math.ceil(word.length * 0.4);
+    return `<b>${word.slice(0, boldLen)}</b>${word.slice(boldLen)}`;
+  }
+
+  function applyBionicReading() {
+    const selectors = [
+      '.card-head-text p', '.block p', '.text-small', '.text-tiny',
+      '.wizard-hint', '.insight-text', '.kind-words div',
+      '.check-label', '.tile-label', '.tile-hint', '.feeling-tile',
+      '.support-card p', '.ai-prompt-card p', '.ref-block',
+      '.intention-input', '.brain-dump-area', '.microstep-text',
+      '.dump-thought-text', '.ai-tip', '.panic-breath', '.panic-crisis p',
+      'label', '.summary-box', '.battery-message', '.quick-win-item',
+      '.spoon-message', '.success-entry', '.nudge-text'
+    ];
+    
+    selectors.forEach(sel => {
+      qsa(sel).forEach(el => {
+        if (el.classList.contains('bionic-processed')) return;
+        const text = el.textContent;
+        const words = text.split(/(\s+)/);
+        const bionic = words.map(w => w.trim() ? bionicWord(w) : w).join('');
+        el.innerHTML = `<span class="bionic-text">${bionic}</span>`;
+        el.classList.add('bionic-processed');
+      });
+    });
+  }
+
+  function removeBionicReading() {
+    qsa('.bionic-processed').forEach(el => {
+      const text = el.textContent;
+      el.innerHTML = text;
+      el.classList.remove('bionic-processed');
+    });
+  }
+
   /* ── INIT ───────────────────────────────────────────── */
   go('home');
   renderMicroSteps();
 
 })();
+
 </script>
 
 </body>
