@@ -15,6 +15,7 @@ The app is designed for use in academic advising, learning support, and counsell
 - 🌊 Calm & Focus breathing tool
 - ✅ Task Breaker (micro-steps)
 - 📊 Session & progress tracking
+- 👁️ Bionic Reading mode for improved focus and reading speed
 - ♿ Accessibility tools:
   - Dyslexia-friendly font
   - Adjustable font size
