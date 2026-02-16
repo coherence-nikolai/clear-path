@@ -103,6 +103,9 @@
   --border: rgba(0,0,0,.2);
   --muted: #3a6048;
 }
+[data-bionic="on"] .bionic-text b {
+  font-weight: 700;
+}
 
 @media (prefers-reduced-motion: reduce), [data-motion="reduce"] * {
   animation-duration: .01ms !important;
@@ -767,12 +770,428 @@ input[type=checkbox] {
 }
 .stat-chip .stat-val { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--green); line-height: 1; }
 .stat-chip .stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-top: 3px; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE 1: NEURODIVERGENT ENHANCEMENTS - CSS
+   ═══════════════════════════════════════════════════════════ */
+
+/* Floating Action Buttons */
+.what-now-fab {
+  position: fixed; bottom: 90px; right: 20px; z-index: 150;
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), var(--green-soft));
+  border: 3px solid var(--border-hi);
+  box-shadow: 0 8px 24px rgba(130,212,160,.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; cursor: pointer;
+  transition: transform .2s var(--ease-spring);
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+.what-now-fab:hover { transform: scale(1.1); }
+.what-now-fab:active { transform: scale(0.95); }
+@keyframes gentlePulse {
+  0%, 100% { box-shadow: 0 8px 24px rgba(130,212,160,.4); }
+  50% { box-shadow: 0 8px 32px rgba(130,212,160,.6), 0 0 20px rgba(130,212,160,.3); }
+}
+
+.distraction-fab {
+  position: fixed; bottom: 90px; left: 20px; z-index: 150;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--lavender);
+  border: 2px solid rgba(184,168,216,.4);
+  box-shadow: 0 4px 16px rgba(184,168,216,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; cursor: pointer;
+  transition: transform .2s;
+}
+.distraction-fab:hover { transform: scale(1.1); }
+
+/* Modals */
+.what-now-modal, .distraction-modal {
+  position: fixed; inset: 0; z-index: 999; display: none;
+  background: rgba(0,0,0,.85); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.what-now-modal.show, .distraction-modal.show {
+  display: flex; animation: fadeIn .25s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.what-now-content, .distraction-content {
+  background: var(--surface); border: 2px solid var(--border-hi);
+  border-radius: var(--r-xl); padding: 32px 28px;
+  max-width: 480px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  animation: slideUp .3s var(--ease-spring);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.what-now-title {
+  font-family: var(--font-display); font-size: 24px;
+  font-weight: 700; color: var(--green);
+  margin-bottom: 16px; display: flex;
+  align-items: center; gap: 10px;
+}
+.what-now-suggestion {
+  background: var(--green-dim);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--r); padding: 20px;
+  margin-bottom: 16px; font-size: 16px;
+  line-height: 1.7; font-weight: 500;
+}
+.what-now-actions {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.what-now-btn {
+  padding: 14px; border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2); color: var(--fg);
+  font-weight: 600; cursor: pointer;
+  transition: all .15s;
+  font-family: var(--font-base); font-size: 14px;
+}
+.what-now-btn:hover {
+  background: var(--surface3);
+  border-color: var(--green);
+}
+.what-now-btn.primary {
+  background: var(--green);
+  color: #0c1410;
+  border-color: var(--green);
+}
+
+.distraction-content h3 {
+  font-size:18px; font-weight:700;
+  margin-bottom:14px; color:var(--lavender);
+}
+.distraction-input {
+  width: 100%; min-height: 80px; padding: 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2); color: var(--fg);
+  font-family: var(--font-base);
+  font-size: 15px; resize: vertical;
+}
+.distraction-type {
+  display: flex; gap: 8px;
+  margin: 12px 0; flex-wrap: wrap;
+}
+.distraction-chip {
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.distraction-chip:hover,
+.distraction-chip.selected {
+  background: var(--lav-dim);
+  border-color: var(--lavender);
+  color: var(--lavender);
+}
+
+/* Dopamine System */
+.dopamine-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 20px; margin-bottom: 16px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.streak-counter {
+  display: flex; align-items: center;
+  gap: 8px; font-weight: 700;
+}
+.streak-number {
+  font-size: 28px;
+  font-family: var(--font-display);
+  color: var(--amber);
+}
+.xp-bar-wrap { flex: 1; min-width: 200px; }
+.xp-label {
+  font-size: 11px; color: var(--muted);
+  margin-bottom: 4px;
+}
+.xp-bar {
+  height: 12px;
+  background: rgba(128,128,128,.1);
+  border-radius: 99px; overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--amber));
+  border-radius: 99px;
+  transition: width .5s var(--ease-smooth);
+}
+.level-badge {
+  font-size: 20px; font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--green); padding: 8px 16px;
+  background: var(--green-dim);
+  border: 1px solid var(--border-hi);
+  border-radius: 20px;
+}
+
+.achievement-toast {
+  position: fixed; top: 80px; right: 20px;
+  z-index: 200;
+  background: linear-gradient(135deg, var(--amber), var(--green));
+  color: #0c1410; padding: 16px 20px;
+  border-radius: var(--r);
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  transform: translateX(400px);
+  transition: transform .4s var(--ease-spring);
+  max-width: 300px; font-weight: 700;
+  display: none;
+}
+.achievement-toast.show {
+  display: block; transform: translateX(0);
+}
+
+/* Battery Tracker */
+.battery-tracker {
+  background: linear-gradient(135deg, var(--sky-dim), var(--green-dim));
+  border: 1px solid var(--border-hi);
+  border-radius: var(--r-lg);
+  padding: 18px 20px; margin-bottom: 16px;
+}
+.battery-label {
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px; color: var(--sky);
+  margin-bottom: 10px;
+}
+.battery-selector {
+  display: flex; gap: 8px;
+  justify-content: center; flex-wrap: wrap;
+}
+.battery-btn {
+  width: 50px; height: 50px; border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface2); font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center;
+  justify-content: center;
+  transition: all .2s var(--ease-spring);
+}
+.battery-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--sky);
+}
+.battery-btn.selected {
+  background: var(--sky-dim);
+  border-color: var(--sky);
+  transform: scale(1.15);
+  box-shadow: 0 4px 16px rgba(130,196,216,.3);
+}
+.battery-message {
+  margin-top: 12px; font-size: 13px;
+  color: var(--muted); text-align: center;
+  font-style: italic; min-height: 20px;
+}
+
+/* Quick Wins */
+.quick-wins {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px; margin-bottom: 16px;
+}
+.quick-wins-title {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 12px;
+  display: flex; align-items: center;
+  gap: 8px; color: var(--green);
+}
+.quick-win-item {
+  padding: 12px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  margin-bottom: 8px; cursor: pointer;
+  transition: all .15s;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px;
+}
+.quick-win-item:hover {
+  background: var(--green-dim);
+  border-color: var(--green);
+  transform: translateX(4px);
+}
+.quick-win-time {
+  font-size: 11px; color: var(--muted);
+  margin-left: auto;
+  background: rgba(128,128,128,.1);
+  padding: 3px 8px; border-radius: 12px;
+}
+
+/* Time Estimates */
+.time-estimate {
+  display: inline-flex; align-items: center;
+  gap: 5px; font-size: 11px;
+  color: var(--muted); font-weight: 600;
+  background: rgba(128,128,128,.08);
+  padding: 4px 10px; border-radius: 12px;
+}
+
+/* Success Journal */
+.success-journal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px; margin-bottom: 16px;
+}
+.success-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700;
+  color: var(--green); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.success-entry {
+  padding: 12px 14px;
+  background: var(--green-dim);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--r-sm);
+  margin-bottom: 8px; font-size: 14px;
+  line-height: 1.6;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.success-icon {
+  font-size: 18px; flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Focus Modes */
+.focus-mode-bar {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 8px;
+  margin-bottom: 16px;
+  display: flex; gap: 6px; align-items: center;
+}
+.focus-mode-label {
+  font-size: 11px; font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px; margin-right: 4px;
+}
+.focus-mode-btn {
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+  white-space: nowrap;
+}
+.focus-mode-btn:hover { background: var(--surface3); }
+.focus-mode-btn.active {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+body.focus-laser .app { max-width: 600px; }
+body.focus-laser .bottom-nav,
+body.focus-laser .what-now-fab,
+body.focus-laser .distraction-fab { display: none; }
+body.focus-laser .screen:not(.active) {
+  display: none !important;
+}
+body.focus-laser .screen.active > .card:not(:first-child) {
+  opacity: .3; pointer-events: none;
+}
+
+/* Context Restore */
+.restore-banner {
+  background: linear-gradient(135deg, var(--sky-dim), var(--green-dim));
+  border: 1px solid rgba(130,196,216,.3);
+  border-radius: var(--r);
+  padding: 16px 20px; margin-bottom: 16px;
+  display: none;
+}
+.restore-banner.show {
+  display: block;
+  animation: slideDown .3s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.restore-text {
+  font-size: 14px; margin-bottom: 10px;
+  font-weight: 500;
+}
+.restore-btn {
+  padding: 10px 18px; background: var(--sky);
+  color: #fff; border: none;
+  border-radius: var(--r-sm); font-weight: 700;
+  cursor: pointer; transition: all .15s;
+  font-family: var(--font-base);
+}
+.restore-btn:hover {
+  background: #6aacc0;
+  transform: translateY(-1px);
+}
+
 </style>
 
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- ═══ PHASE 1: ACHIEVEMENT TOAST ═══ -->
+
+<div id="achievementToast" class="achievement-toast">
+  <div style="font-size:24px;margin-bottom:4px;">🎉</div>
+  <div id="achievementText">Achievement Unlocked!</div>
+</div>
+
+<!-- ═══ PHASE 1: WHAT NOW MODAL ═══ -->
+
+<div class="what-now-modal" id="whatNowModal">
+  <div class="what-now-content">
+    <div class="what-now-title">🧭 What should I do now?</div>
+    <div class="what-now-suggestion" id="whatNowSuggestion">Loading suggestion...</div>
+    <div class="what-now-actions">
+      <button class="what-now-btn primary" id="doItBtn">✅ Do it</button>
+      <button class="what-now-btn" id="tooHardBtn">😰 Too hard - break it smaller</button>
+      <button class="what-now-btn" id="cantFocusBtn">🌊 Can't focus - go to Calm</button>
+      <button class="what-now-btn" id="closeWhatNow">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PHASE 1: DISTRACTION MODAL ═══ -->
+
+<div class="distraction-modal" id="distractionModal">
+  <div class="distraction-content">
+    <h3>💭 Capture This Thought</h3>
+    <textarea class="distraction-input" id="distractionInput" placeholder="What's on your mind? Get it out..."></textarea>
+    <div style="font-size:12px;color:var(--muted);margin:8px 0 4px;">What kind of thought?</div>
+    <div class="distraction-type">
+      <button class="distraction-chip" data-type="todo">📝 To-do</button>
+      <button class="distraction-chip" data-type="worry">😰 Worry</button>
+      <button class="distraction-chip" data-type="idea">💡 Idea</button>
+      <button class="distraction-chip" data-type="random">🌀 Random</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="btn primary" id="captureThought" style="flex:1;">Save & Return to Focus</button>
+      <button class="btn" id="closeDistraction">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PHASE 1: FLOATING ACTION BUTTONS ═══ -->
+
+<button class="what-now-fab" id="whatNowFab" title="What should I do now?">🧭</button>
+<button class="distraction-fab" id="distractionFab" title="Quick thought capture">💭</button>
 
 <!-- PANIC OVERLAY -->
 
@@ -835,7 +1254,7 @@ input[type=checkbox] {
       </svg>
       <div class="app-brand">
         <div class="app-title">Clear Path</div>
-        <div class="app-subtitle">Academic Skills · One step at a time</div>
+        <div class="app-subtitle">Academic Skills</div>
       </div>
     </div>
     <div class="settings-bar">
@@ -875,6 +1294,11 @@ input[type=checkbox] {
       <button class="pill-btn" data-setting="motion" data-val="normal">Normal</button>
       <button class="pill-btn" data-setting="motion" data-val="reduce">Reduce</button>
     </div>
+    <div class="settings-row">
+      <span class="settings-label">Bionic Reading</span>
+      <button class="pill-btn" data-setting="bionic" data-val="off">Off</button>
+      <button class="pill-btn" data-setting="bionic" data-val="on">On</button>
+    </div>
     <p class="settings-section-title mt-10">App</p>
     <div class="settings-row">
       <span class="settings-label">Install app</span>
@@ -887,8 +1311,74 @@ input[type=checkbox] {
 
   <section class="screen active" id="screen-home" aria-label="Home">
 
-```
+  <!-- ═══ PHASE 1: CONTEXT RESTORE ═══ -->
+
+  <div class="restore-banner" id="restoreBanner">
+    <div class="restore-text" id="restoreText">Pick up where you left off?</div>
+    <button class="restore-btn" id="restoreBtn">Continue →</button>
+  </div>
+
+  <!-- ═══ PHASE 1: BATTERY TRACKER ═══ -->
+
+  <div class="battery-tracker">
+    <div class="battery-label">🔋 What's your battery level today?</div>
+    <div class="battery-selector">
+      <button class="battery-btn" data-battery="1">🪫</button>
+      <button class="battery-btn" data-battery="2">🔋</button>
+      <button class="battery-btn" data-battery="3">🔋🔋</button>
+      <button class="battery-btn" data-battery="4">🔋🔋🔋</button>
+      <button class="battery-btn" data-battery="5">⚡🔋🔋🔋</button>
+    </div>
+    <div class="battery-message" id="batteryMessage"></div>
+  </div>
+
+  <!-- ═══ PHASE 1: DOPAMINE BAR ═══ -->
+
+  <div class="dopamine-bar">
+    <div class="streak-counter">
+      🔥 <span class="streak-number" id="streakNumber">0</span>
+      <span style="font-size:12px;color:var(--muted);">day streak</span>
+    </div>
+    <div class="xp-bar-wrap">
+      <div class="xp-label">Level Progress <span id="xpText">0/100 XP</span></div>
+      <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+    </div>
+    <div class="level-badge">LV <span id="levelNumber">1</span></div>
+  </div>
+
+  <!-- ═══ PHASE 1: FOCUS MODE SWITCHER ═══ -->
+
+  <div class="focus-mode-bar">
+    <span class="focus-mode-label">Focus:</span>
+    <button class="focus-mode-btn active" data-mode="normal">👁️ Normal</button>
+    <button class="focus-mode-btn" data-mode="laser">🔍 Laser</button>
+    <button class="focus-mode-btn" data-mode="flow">🌊 Flow</button>
+  </div>
+
+  <!-- ═══ PHASE 1: QUICK WINS ═══ -->
+
+  <div class="quick-wins">
+    <div class="quick-wins-title">⚡ Can't start? Pick a 5-min win:</div>
+    <div class="quick-win-item" data-action="open-doc">
+      <span>📂</span> Just open your document - that's it
+      <span class="quick-win-time">~2 min</span>
+    </div>
+    <div class="quick-win-item" data-action="read-title">
+      <span>👀</span> Read the assignment title once
+      <span class="quick-win-time">~1 min</span>
+    </div>
+    <div class="quick-win-item" data-action="name-date">
+      <span>✏️</span> Type your name and today's date
+      <span class="quick-win-time">~1 min</span>
+    </div>
+    <div class="quick-win-item" data-action="one-sentence">
+      <span>📝</span> Write one sentence - any sentence
+      <span class="quick-win-time">~3 min</span>
+    </div>
+  </div>
+
 <!-- Daily intention -->
+
 <div class="intention-box">
   <div class="intention-label">🌿 Today's intention</div>
   <input class="intention-input" id="intentionInput" placeholder="What's one thing you want to do today?" autocomplete="off" maxlength="120"/>
@@ -896,13 +1386,23 @@ input[type=checkbox] {
 </div>
 
 <!-- Stats bar -->
+
 <div class="stats-bar">
   <div class="stat-chip"><div class="stat-val" id="statSessions">0</div><div class="stat-lbl">Sessions</div></div>
   <div class="stat-chip"><div class="stat-val" id="statDumps">0</div><div class="stat-lbl">Thoughts cleared</div></div>
   <div class="stat-chip"><div class="stat-val" id="statChecks">0</div><div class="stat-lbl">Tasks done</div></div>
 </div>
 
+  <!-- ═══ PHASE 1: SUCCESS JOURNAL ═══ -->
+
+  <div class="success-journal hidden" id="successJournal">
+    <div class="success-title">🌟 Today's Wins</div>
+    <div id="successList"></div>
+    <button class="btn sm" id="addWin" style="margin-top:8px;">+ Add a win</button>
+  </div>
+
 <!-- Feeling check-in -->
+
 <div class="section-label">How are you feeling right now?</div>
 <div class="card" style="margin-bottom:14px">
   <div class="card-body">
@@ -919,6 +1419,7 @@ input[type=checkbox] {
 </div>
 
 <!-- Direct navigation -->
+
 <div class="section-label">Go directly to</div>
 <div class="tile-grid">
   <button class="tile" data-nav="start"><span class="tile-icon">▶️</span><div class="tile-label">Start<div class="tile-hint">Prepare &amp; begin</div></div></button>
@@ -928,14 +1429,13 @@ input[type=checkbox] {
   <button class="tile c-amber" data-nav="stress"><span class="tile-icon">⏱️</span><div class="tile-label">Focus Timer<div class="tile-hint">Pomodoro &amp; strategies</div></div></button>
   <button class="tile c-lav" data-nav="support"><span class="tile-icon">🫂</span><div class="tile-label">Support Hub<div class="tile-hint">People &amp; resources</div></div></button>
 
-  <button class="tile" data-nav="ai" style="border-color:rgba(184,168,216,.3);background:var(--lav-dim)"><span class="tile-icon">🤖</span><div class="tile-label">AI Tools<div class="tile-hint">Smart writing prompts</div></div></button>
-  <button class="tile c-rose" data-nav="finish" style="grid-column:1/-1"><span class="tile-icon">✅</span><div class="tile-label">Finish &amp; Submit<div class="tile-hint">Final checks before submitting</div></div></button>
-</div>
-```
+<button class="tile" data-nav="ai" style="border-color:rgba(184,168,216,.3);background:var(--lav-dim)"><span class="tile-icon">🤖</span><div class="tile-label">AI Tools<div class="tile-hint">Smart writing prompts</div></div></button>
+<button class="tile c-rose" data-nav="finish" style="grid-column:1/-1"><span class="tile-icon">✅</span><div class="tile-label">Finish & Submit<div class="tile-hint">Final checks before submitting</div></div></button>
 
+</div>
   </section>
 
-  <!-- ════ BRAIN DUMP ══════════════════════════════════════════ -->
+<!-- CONTINUE IN PART 2... -->  <!-- ════ BRAIN DUMP ══════════════════════════════════════════ -->
 
   <section class="screen hidden" id="screen-dump" aria-label="Brain dump">
     <div class="card">
@@ -1020,8 +1520,6 @@ input[type=checkbox] {
         <button class="btn sm" data-nav="home">← Home</button>
       </div>
       <div class="card-body">
-
-```
     <!-- Wizard progress -->
     <div class="wizard-progress" role="progressbar" id="wizardProgress" aria-valuemin="1" aria-valuemax="4">
       <div class="wizard-step-dot active" id="wdot-0"></div>
@@ -1034,109 +1532,109 @@ input[type=checkbox] {
       <span class="wizard-step-label" id="wizardLabel">Step 1 of 4</span>
     </div>
 
-    <!-- Step 0 -->
-    <div class="wizard-pane active" id="wpane-0">
-      <div class="wizard-question">What is the assignment question?</div>
-      <div class="wizard-hint">Paste or type it. Even just the first line helps.</div>
-      <div class="form-group">
-        <textarea id="brief" placeholder="Paste your assignment question here…"></textarea>
-      </div>
-      <div class="btn-row" style="margin-bottom:12px">
-        <button class="btn sm" id="toggleExample">📋 See an example</button>
-      </div>
-      <div class="block hidden" id="exampleCard">
-        <div class="block-title">Example <span class="badge amber">tap "Use this"</span></div>
-        <div class="text-small" style="margin-bottom:8px"><strong>Question:</strong> Analyse the impact of social media on adolescent wellbeing in Australia since 2020.</div>
-        <div class="btn-row">
-          <button class="btn primary" id="useExample">Use this example</button>
-          <button class="btn" id="closeExample">Close</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="task">How are you being asked to approach it?</label>
-        <input id="task" placeholder="e.g., analyse, discuss, evaluate…" autocomplete="off"/>
-        <div id="task-help" class="text-small mt-10" style="min-height:18px; font-style:italic;"></div>
-      </div>
-      <div class="text-small" style="margin-bottom:6px">Quick-fill task words:</div>
-      <div class="chip-row" id="taskChips"></div>
-      <div class="btn-row mt-14">
-        <button class="btn primary" id="wNext0">Next →</button>
-      </div>
+```
+<!-- Step 0 -->
+<div class="wizard-pane active" id="wpane-0">
+  <div class="wizard-question">What is the assignment question?</div>
+  <div class="wizard-hint">Paste or type it. Even just the first line helps.</div>
+  <div class="form-group">
+    <textarea id="brief" placeholder="Paste your assignment question here…"></textarea>
+  </div>
+  <div class="btn-row" style="margin-bottom:12px">
+    <button class="btn sm" id="toggleExample">📋 See an example</button>
+  </div>
+  <div class="block hidden" id="exampleCard">
+    <div class="block-title">Example <span class="badge amber">tap "Use this"</span></div>
+    <div class="text-small" style="margin-bottom:8px"><strong>Question:</strong> Analyse the impact of social media on adolescent wellbeing in Australia since 2020.</div>
+    <div class="btn-row">
+      <button class="btn primary" id="useExample">Use this example</button>
+      <button class="btn" id="closeExample">Close</button>
     </div>
+  </div>
+  <div class="form-group">
+    <label for="task">How are you being asked to approach it?</label>
+    <input id="task" placeholder="e.g., analyse, discuss, evaluate…" autocomplete="off"/>
+    <div id="task-help" class="text-small mt-10" style="min-height:18px; font-style:italic;"></div>
+  </div>
+  <div class="text-small" style="margin-bottom:6px">Quick-fill task words:</div>
+  <div class="chip-row" id="taskChips"></div>
+  <div class="btn-row mt-14">
+    <button class="btn primary" id="wNext0">Next →</button>
+  </div>
+</div>
 
-    <!-- Step 1 -->
-    <div class="wizard-pane" id="wpane-1">
-      <div class="wizard-question">What is the assignment about?</div>
-      <div class="wizard-hint">The broad topic — not your argument yet, just the subject area.</div>
-      <div class="form-group">
-        <label for="topic">General topic</label>
-        <input id="topic" placeholder="e.g., stress and learning, climate policy, mental health…"/>
-      </div>
-      <div class="form-group">
-        <label for="limit">Any limits? (optional)</label>
-        <input id="limit" placeholder="e.g., Australia, since 2020, undergraduate students…"/>
-        <p class="text-tiny mt-10">Limits tell you what to leave out — this saves you from going too broad.</p>
-      </div>
-      <div class="btn-row mt-14">
-        <button class="btn" id="wBack1">← Back</button>
-        <button class="btn primary" id="wNext1">Next →</button>
-      </div>
+<!-- Step 1 -->
+<div class="wizard-pane" id="wpane-1">
+  <div class="wizard-question">What is the assignment about?</div>
+  <div class="wizard-hint">The broad topic — not your argument yet, just the subject area.</div>
+  <div class="form-group">
+    <label for="topic">General topic</label>
+    <input id="topic" placeholder="e.g., stress and learning, climate policy, mental health…"/>
+  </div>
+  <div class="form-group">
+    <label for="limit">Any limits? (optional)</label>
+    <input id="limit" placeholder="e.g., Australia, since 2020, undergraduate students…"/>
+    <p class="text-tiny mt-10">Limits tell you what to leave out — this saves you from going too broad.</p>
+  </div>
+  <div class="btn-row mt-14">
+    <button class="btn" id="wBack1">← Back</button>
+    <button class="btn primary" id="wNext1">Next →</button>
+  </div>
+</div>
+
+<!-- Step 2 -->
+<div class="wizard-pane" id="wpane-2">
+  <div class="wizard-question">Logistics</div>
+  <div class="wizard-hint">These help you plan your time and structure.</div>
+  <div class="form-group">
+    <label for="wordCount">Word count or length</label>
+    <input id="wordCount" placeholder="e.g., 1500 words, 10 min presentation…"/>
+  </div>
+  <div class="form-group">
+    <label for="deadline">Due date</label>
+    <input id="deadline" type="date"/>
+  </div>
+  <div class="form-group">
+    <label for="format">Format / structure required</label>
+    <input id="format" placeholder="e.g., essay, report, annotated bibliography…"/>
+  </div>
+  <div class="btn-row mt-14">
+    <button class="btn" id="wBack2">← Back</button>
+    <button class="btn primary" id="wNext2">Next →</button>
+  </div>
+</div>
+
+<!-- Step 3 — save + summary -->
+<div class="wizard-pane" id="wpane-3">
+  <div class="wizard-question">Your Summary</div>
+  <div class="wizard-hint">Here's what you've unpacked. Review it — this is your anchor while you write.</div>
+  <div id="understandSummary"></div>
+  <div class="block mt-14">
+    <div class="block-title">📚 Quick Referencing Guide</div>
+    <div class="ref-block">
+      <strong>APA 7 — Journal Article</strong>
+      <code>Author, A. (Year). Title of article. <em>Journal Name</em>, Vol(Issue), pages. DOI</code>
     </div>
-
-    <!-- Step 2 -->
-    <div class="wizard-pane" id="wpane-2">
-      <div class="wizard-question">Logistics</div>
-      <div class="wizard-hint">These help you plan your time and structure.</div>
-      <div class="form-group">
-        <label for="wordCount">Word count or length</label>
-        <input id="wordCount" placeholder="e.g., 1500 words, 10 min presentation…"/>
-      </div>
-      <div class="form-group">
-        <label for="deadline">Due date</label>
-        <input id="deadline" type="date"/>
-      </div>
-      <div class="form-group">
-        <label for="format">Format / structure required</label>
-        <input id="format" placeholder="e.g., essay, report, annotated bibliography…"/>
-      </div>
-      <div class="btn-row mt-14">
-        <button class="btn" id="wBack2">← Back</button>
-        <button class="btn primary" id="wNext2">Next →</button>
-      </div>
+    <div class="ref-block">
+      <strong>APA 7 — Website</strong>
+      <code>Author, A. (Year, Month Day). <em>Title</em>. Site Name. URL</code>
     </div>
-
-    <!-- Step 3 — save + summary -->
-    <div class="wizard-pane" id="wpane-3">
-      <div class="wizard-question">Your Summary</div>
-      <div class="wizard-hint">Here's what you've unpacked. Review it — this is your anchor while you write.</div>
-      <div id="understandSummary"></div>
-      <div class="block mt-14">
-        <div class="block-title">📚 Quick Referencing Guide</div>
-        <div class="ref-block">
-          <strong>APA 7 — Journal Article</strong>
-          <code>Author, A. (Year). Title of article. <em>Journal Name</em>, Vol(Issue), pages. DOI</code>
-        </div>
-        <div class="ref-block">
-          <strong>APA 7 — Website</strong>
-          <code>Author, A. (Year, Month Day). <em>Title</em>. Site Name. URL</code>
-        </div>
-        <div class="ref-block">
-          <strong>APA 7 — In-text citation</strong>
-          <code>(Smith & Jones, 2022, p. 14)</code>
-        </div>
-        <p class="text-tiny mt-10">Always confirm the exact style required for your unit.</p>
-      </div>
-      <div class="btn-row mt-14">
-        <button class="btn" id="wBack3">← Back</button>
-        <button class="btn primary" id="saveUnderstand">💾 Save &amp; continue</button>
-        <span class="text-small" id="savedBadge" aria-live="polite"></span>
-      </div>
+    <div class="ref-block">
+      <strong>APA 7 — In-text citation</strong>
+      <code>(Smith & Jones, 2022, p. 14)</code>
     </div>
-
+    <p class="text-tiny mt-10">Always confirm the exact style required for your unit.</p>
+  </div>
+  <div class="btn-row mt-14">
+    <button class="btn" id="wBack3">← Back</button>
+    <button class="btn primary" id="saveUnderstand">💾 Save &amp; continue</button>
+    <span class="text-small" id="savedBadge" aria-live="polite"></span>
   </div>
 </div>
 ```
 
+  </div>
+</div>
   </section>
 
   <!-- ════ CALM ═════════════════════════════════════════════════ -->
@@ -1163,32 +1661,31 @@ input[type=checkbox] {
           <button class="tile" data-calm="pulse"><span class="tile-icon">🌊</span><div class="tile-label">Visual Reset<div class="tile-hint">Watch the orb</div></div></button>
           <button class="tile" data-calm="kind" style="grid-column:1/-1"><span class="tile-icon">🫶</span><div class="tile-label">Kind Words<div class="tile-hint">Slow is allowed</div></div></button>
         </div>
-
-```
     <div class="orb-wrap">
       <div class="orb exhale" id="orb" role="img" aria-label="Breathing guide">Ready</div>
       <div class="orb-timer" id="orbTimer" aria-live="polite"></div>
     </div>
 
-    <div class="insight hidden" id="calmInsight" role="region" aria-live="polite">
-      <div class="insight-title">
-        <span id="calmInsightIcon"></span>
-        <span id="calmInsightTitle"></span>
-        <span class="badge green" id="calmBadge">ready</span>
-      </div>
-      <div class="insight-text" id="calmInsightText"></div>
-    </div>
-
-    <div class="kind-words" id="kindWords" role="region" aria-live="polite"></div>
-
-    <div class="btn-row mt-14">
-      <button class="btn primary" data-nav="understand">Go to Understand</button>
-      <button class="btn" data-nav="stress">Go to Focus Timer</button>
-    </div>
+```
+<div class="insight hidden" id="calmInsight" role="region" aria-live="polite">
+  <div class="insight-title">
+    <span id="calmInsightIcon"></span>
+    <span id="calmInsightTitle"></span>
+    <span class="badge green" id="calmBadge">ready</span>
   </div>
+  <div class="insight-text" id="calmInsightText"></div>
+</div>
+
+<div class="kind-words" id="kindWords" role="region" aria-live="polite"></div>
+
+<div class="btn-row mt-14">
+  <button class="btn primary" data-nav="understand">Go to Understand</button>
+  <button class="btn" data-nav="stress">Go to Focus Timer</button>
 </div>
 ```
 
+  </div>
+</div>
   </section>
 
   <!-- ════ STRESS / FOCUS ══════════════════════════════════════ -->
@@ -1216,8 +1713,6 @@ input[type=checkbox] {
           <button class="tile" data-stress="sensory"><span class="tile-icon">🎧</span><div class="tile-label">Sensory Breaks<div class="tile-hint">Reset your system</div></div></button>
           <button class="tile c-sky" data-stress="support" style="grid-column:1/-1"><span class="tile-icon">🫂</span><div class="tile-label">Get Support<div class="tile-hint">Academic Skills, Studiosity &amp; more</div></div></button>
         </div>
-
-```
     <div class="insight hidden" id="stressInsight" role="region" aria-live="polite">
       <div class="insight-title">
         <span id="stressInsightTitle"></span>
@@ -1226,58 +1721,59 @@ input[type=checkbox] {
       <div class="insight-text" id="stressInsightText"></div>
     </div>
 
-    <!-- FOCUS CYCLE TIMER -->
-    <div id="cycleBox" class="hidden mt-14">
-      <div class="block">
-        <div class="block-title">🕒 Focus Cycle Timer <span class="badge">optional</span></div>
-        <p class="text-small">Adjust anytime. Stopping early is not failing — it's self-awareness.</p>
-        <div class="btn-row mt-10" style="gap:12px">
-          <div>
-            <label for="workMin" style="text-transform:none;font-size:12px;margin-bottom:4px">Work time</label>
-            <select id="workMin" style="width:auto;min-width:100px">
-              <option value="10">10 min</option>
-              <option value="15">15 min</option>
-              <option value="25" selected>25 min</option>
-              <option value="45">45 min</option>
-            </select>
-          </div>
-          <div>
-            <label for="breakMin" style="text-transform:none;font-size:12px;margin-bottom:4px">Break time</label>
-            <select id="breakMin" style="width:auto;min-width:100px">
-              <option value="3">3 min</option>
-              <option value="5" selected>5 min</option>
-              <option value="10">10 min</option>
-            </select>
-          </div>
-        </div>
-        <div class="timer-face">
-          <div class="timer-mode" id="cycleMode">WORK</div>
-          <div class="timer-time" id="cycleTime" aria-live="polite" aria-atomic="true">25:00</div>
-          <div class="progress-bar-wrap"><div class="progress-bar" id="cycleBar" style="width:100%"></div></div>
-          <div class="session-dots" id="sessionDots">
-            <div class="session-dot" id="sd0"></div>
-            <div class="session-dot" id="sd1"></div>
-            <div class="session-dot" id="sd2"></div>
-            <div class="session-dot" id="sd3"></div>
-          </div>
-          <div class="timer-hint" id="cycleHint">Start a cycle. Stop early if you need to.</div>
-        </div>
-        <div class="btn-row" style="justify-content:center">
-          <button class="btn primary" id="cycleStart">▶ Start</button>
-          <button class="btn" id="cycleStop">⏸ Pause</button>
-          <button class="btn danger" id="cycleReset">↺ Reset</button>
-        </div>
+```
+<!-- FOCUS CYCLE TIMER -->
+<div id="cycleBox" class="hidden mt-14">
+  <div class="block">
+    <div class="block-title">🕒 Focus Cycle Timer <span class="badge">optional</span></div>
+    <p class="text-small">Adjust anytime. Stopping early is not failing — it's self-awareness.</p>
+    <div class="btn-row mt-10" style="gap:12px">
+      <div>
+        <label for="workMin" style="text-transform:none;font-size:12px;margin-bottom:4px">Work time</label>
+        <select id="workMin" style="width:auto;min-width:100px">
+          <option value="10">10 min</option>
+          <option value="15">15 min</option>
+          <option value="25" selected>25 min</option>
+          <option value="45">45 min</option>
+        </select>
+      </div>
+      <div>
+        <label for="breakMin" style="text-transform:none;font-size:12px;margin-bottom:4px">Break time</label>
+        <select id="breakMin" style="width:auto;min-width:100px">
+          <option value="3">3 min</option>
+          <option value="5" selected>5 min</option>
+          <option value="10">10 min</option>
+        </select>
       </div>
     </div>
-
-    <div class="btn-row mt-14">
-      <button class="btn" data-nav="finish">Go to Finish</button>
-      <button class="btn" data-nav="calm">Go to Calm &amp; Focus</button>
+    <div class="timer-face">
+      <div class="timer-mode" id="cycleMode">WORK</div>
+      <div class="timer-time" id="cycleTime" aria-live="polite" aria-atomic="true">25:00</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="cycleBar" style="width:100%"></div></div>
+      <div class="session-dots" id="sessionDots">
+        <div class="session-dot" id="sd0"></div>
+        <div class="session-dot" id="sd1"></div>
+        <div class="session-dot" id="sd2"></div>
+        <div class="session-dot" id="sd3"></div>
+      </div>
+      <div class="timer-hint" id="cycleHint">Start a cycle. Stop early if you need to.</div>
+    </div>
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn primary" id="cycleStart">▶ Start</button>
+      <button class="btn" id="cycleStop">⏸ Pause</button>
+      <button class="btn danger" id="cycleReset">↺ Reset</button>
     </div>
   </div>
 </div>
+
+<div class="btn-row mt-14">
+  <button class="btn" data-nav="finish">Go to Finish</button>
+  <button class="btn" data-nav="calm">Go to Calm &amp; Focus</button>
+</div>
 ```
 
+  </div>
+</div>
   </section>
 
   <!-- ════ SUPPORT HUB ═════════════════════════════════════════ -->
@@ -1295,8 +1791,6 @@ input[type=checkbox] {
         <button class="btn sm" data-nav="home">← Home</button>
       </div>
       <div class="card-body">
-
-```
     <div class="section-label">Academic support</div>
     <div class="support-card">
       <h3>🎓 Academic Skills</h3>
@@ -1305,8 +1799,8 @@ input[type=checkbox] {
     </div>
     <div class="support-card">
       <h3>💬 Studiosity</h3>
-      <p>Online 24/7 draft feedback service. Submit a draft essay and get written feedback within hours. Many Australian universities provide this for free.</p>
-      <a class="support-link" href="https://www.studiosity.com" target="_blank" rel="noopener">Visit Studiosity ↗</a>
+      <p>Online 24/7 draft feedback service. Submit a draft essay and get written feedback within hours. Many Australian universities provide this for free. Access Studiosity through your student portal.</p>
+      <span class="badge sky">24/7 · Via student portal</span>
     </div>
     <div class="support-card">
       <h3>📖 Your library</h3>
@@ -1314,76 +1808,74 @@ input[type=checkbox] {
       <span class="badge sky">Research consultations available</span>
     </div>
 
-    <div class="section-label mt-18">Disability &amp; accessibility</div>
-    <div class="support-card">
-      <h3>♿ Disability Services</h3>
-      <p>If you have ADHD, autism, dyslexia, anxiety, or any condition affecting study, Disability Services can arrange academic adjustments — extra time in exams, note-takers, alternate formats, and more. You don't need a formal diagnosis at all universities.</p>
-      <span class="badge lav">Reasonable adjustments · Confidential</span>
-    </div>
-    <div class="support-card">
-      <h3>🔬 Assessment for support</h3>
-      <p>If you think you might be neurodivergent but haven't had a formal assessment, your university's psychology service may offer low-cost or free assessment referrals.</p>
-    </div>
+```
+<div class="section-label mt-18">Disability &amp; accessibility</div>
+<div class="support-card">
+  <h3>♿ Disability Services</h3>
+  <p>If you have ADHD, autism, dyslexia, anxiety, or any condition affecting study, Disability Services can arrange academic adjustments — extra time in exams, note-takers, alternate formats, and more. You don't need a formal diagnosis at all universities.</p>
+  <span class="badge lav">Reasonable adjustments · Confidential</span>
+</div>
+<div class="support-card">
+  <h3>🔬 Assessment for support</h3>
+  <p>If you think you might be neurodivergent but haven't had a formal assessment, your university's psychology service may offer low-cost or free assessment referrals.</p>
+</div>
 
-    <div class="section-label mt-18">Wellbeing &amp; mental health</div>
-    <div class="support-card">
-      <h3>🧠 Student counselling</h3>
-      <p>Most universities offer free short-term counselling. Counsellors understand study pressures. You don't need to be in crisis to book — struggling is enough reason.</p>
-      <span class="badge green">Free · No referral needed</span>
-    </div>
-    <div class="support-card">
-      <h3>📞 Crisis lines (Australia)</h3>
-      <p>
-        <strong>Lifeline:</strong> 13 11 14 (24/7)<br>
-        <strong>Beyond Blue:</strong> 1300 22 4636<br>
-        <strong>Headspace:</strong> 1800 650 890 (for under 25s)<br>
-        <strong>Crisis Text:</strong> Text HELLO to 741741
-      </p>
-    </div>
+<div class="section-label mt-18">Wellbeing &amp; mental health</div>
+<div class="support-card">
+  <h3>🧠 Student counselling</h3>
+  <p>Most universities offer free short-term counselling. Counsellors understand study pressures. You don't need to be in crisis to book — struggling is enough reason.</p>
+  <span class="badge green">Free · No referral needed</span>
+</div>
+<div class="support-card">
+  <h3>📞 Crisis lines (Australia)</h3>
+  <p>
+    <strong>Lifeline:</strong> 13 11 14 (24/7)<br>
+    <strong>Beyond Blue:</strong> 1300 22 4636<br>
+    <strong>Headspace:</strong> 1800 650 890 (for under 25s)<br>
+    <strong>Crisis Text:</strong> Text HELLO to 741741
+  </p>
+</div>
 
-    <div class="section-label mt-18">Neurodivergent-specific</div>
-    <div class="support-card">
-      <h3>🌟 Tips for ADHD + study</h3>
-      <p>
-        • Body doubling: study near others (library, café, online)<br>
-        • Temptation bundling: reward yourself immediately after<br>
-        • External accountability: tell someone your plan<br>
-        • Time-block with physical alarms, not just phone timers<br>
-        • Start with the easiest part to generate momentum
-      </p>
-    </div>
-    <div class="support-card">
-      <h3>🧩 Tips for autism + study</h3>
-      <p>
-        • Create consistent routines for study sessions<br>
-        • Use visual schedules and checklists<br>
-        • Request written instructions from lecturers when possible<br>
-        • Schedule genuine recovery time — masking is exhausting<br>
-        • Use headphones + sensory tools freely — not something to hide
-      </p>
-    </div>
-    <div class="support-card">
-      <h3>📖 Tips for dyslexia + study</h3>
-      <p>
-        • Use text-to-speech tools (e.g., Natural Reader, built-in phone reader)<br>
-        • Record lectures with permission and replay at 0.75x speed<br>
-        • Mind-map before writing — structure first, words second<br>
-        • Use the dyslexia-friendly font in Settings above<br>
-        • Request extended time for exams via Disability Services
-      </p>
-    </div>
-
-  </div>
+<div class="section-label mt-18">Neurodivergent-specific</div>
+<div class="support-card">
+  <h3>🌟 Tips for ADHD + study</h3>
+  <p>
+    • Body doubling: study near others (library, café, online)<br>
+    • Temptation bundling: reward yourself immediately after<br>
+    • External accountability: tell someone your plan<br>
+    • Time-block with physical alarms, not just phone timers<br>
+    • Start with the easiest part to generate momentum
+  </p>
+</div>
+<div class="support-card">
+  <h3>🧩 Tips for autism + study</h3>
+  <p>
+    • Create consistent routines for study sessions<br>
+    • Use visual schedules and checklists<br>
+    • Request written instructions from lecturers when possible<br>
+    • Schedule genuine recovery time — masking is exhausting<br>
+    • Use headphones + sensory tools freely — not something to hide
+  </p>
+</div>
+<div class="support-card">
+  <h3>📖 Tips for dyslexia + study</h3>
+  <p>
+    • Use text-to-speech tools (e.g., Natural Reader, built-in phone reader)<br>
+    • Record lectures with permission and replay at 0.75x speed<br>
+    • Mind-map before writing — structure first, words second<br>
+    • Use the dyslexia-friendly font in Settings above<br>
+    • Request extended time for exams via Disability Services
+  </p>
 </div>
 ```
 
+  </div>
+</div>
   </section>
 
   <!-- ════ FINISH ═══════════════════════════════════════════════ -->
 
   <section class="screen hidden" id="screen-finish" aria-label="Final submission checks">
-
-```
 <div id="completeBanner" class="complete-banner hidden" aria-live="polite">
   <span class="emoji-big">🎉</span>
   <h3>You did this.</h3>
@@ -1421,25 +1913,24 @@ input[type=checkbox] {
       </div>
     </div>
 
-    <div id="finishList" role="list" aria-label="Submission checklist"></div>
-    <div class="btn-row mt-10">
-      <button class="btn sm" id="resetFinish">↺ Reset checklist</button>
-    </div>
+```
+<div id="finishList" role="list" aria-label="Submission checklist"></div>
+<div class="btn-row mt-10">
+  <button class="btn sm" id="resetFinish">↺ Reset checklist</button>
+</div>
 
-    <div class="block mt-14">
-      <div class="block-title">Last step <span class="badge">reduce risk</span></div>
-      <p class="text-small">If uncertain, tired, or stuck — book Academic Skills, or get draft feedback (Studiosity). Asking for help is part of doing well.</p>
-      <div class="btn-row mt-10">
-        <button class="btn" data-nav="support">🫂 Support Hub</button>
-      </div>
-    </div>
+<div class="block mt-14">
+  <div class="block-title">Last step <span class="badge">reduce risk</span></div>
+  <p class="text-small">If uncertain, tired, or stuck — book Academic Skills, or get draft feedback (Studiosity). Asking for help is part of doing well.</p>
+  <div class="btn-row mt-10">
+    <button class="btn" data-nav="support">🫂 Support Hub</button>
   </div>
 </div>
 ```
 
+  </div>
+</div>
   </section>
-
-</div><!-- /app -->
 
   <!-- ════ AI TOOLS ════════════════════════════════════════════ -->
 
@@ -1456,17 +1947,16 @@ input[type=checkbox] {
         <button class="btn sm" data-nav="home">← Home</button>
       </div>
       <div class="card-body">
-
-```
     <div class="ai-intro">
       These prompts are designed specifically for academic writing. <strong>Copy the prompt</strong>, then open your preferred AI below — Claude, ChatGPT, or Gemini are all free to use. Paste the prompt in and fill in your details.
     </div>
 
-    <!-- PROMPT 1: Unpack my assignment -->
-    <div class="ai-prompt-card">
-      <h3>🧩 Unpack my assignment question</h3>
-      <p>Paste your question — the AI will identify the task word, suggest a structure, and flag what to include or leave out.</p>
-      <div class="ai-prompt-preview" id="prompt-unpack">I'm a university student. Please help me unpack this assignment question:
+```
+<!-- PROMPT 1: Unpack my assignment -->
+<div class="ai-prompt-card">
+  <h3>🧩 Unpack my assignment question</h3>
+  <p>Paste your question — the AI will identify the task word, suggest a structure, and flag what to include or leave out.</p>
+  <div class="ai-prompt-preview" id="prompt-unpack">I'm a university student. Please help me unpack this assignment question:
 ```
 
 [PASTE YOUR QUESTION HERE]
@@ -1476,6 +1966,7 @@ input[type=checkbox] {
 1. Suggest a simple essay structure with 3-4 main points
 1. List 2-3 things I should NOT include based on the question
    Keep your response clear and student-friendly.</div>
+   
    <div class="ai-btn-row">
    <button class="ai-copy-btn" data-copy="prompt-unpack">📋 Copy prompt</button>
    <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1483,14 +1974,11 @@ input[type=checkbox] {
    <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
    </div>
    </div>
-   
-   ```
     <!-- PROMPT 2: Essay plan -->
     <div class="ai-prompt-card">
       <h3>📝 Build an essay plan</h3>
       <p>Give it your topic and word count — it'll return a detailed paragraph-by-paragraph plan you can write to.</p>
       <div class="ai-prompt-preview" id="prompt-plan">I'm writing a [WORD COUNT] word [ESSAY/REPORT] on the following topic:
-   ```
 
 [PASTE YOUR TOPIC OR QUESTION]
 
@@ -1501,6 +1989,7 @@ Please create a detailed paragraph-by-paragraph plan. For each paragraph include
 - 1 suggested source type (e.g. peer-reviewed study, government report)
 
 Include intro and conclusion in the plan. Keep it practical and easy to follow.</div>
+
 <div class="ai-btn-row">
 <button class="ai-copy-btn" data-copy="prompt-plan">📋 Copy prompt</button>
 <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1508,15 +1997,11 @@ Include intro and conclusion in the plan. Keep it practical and easy to follow.<
 <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
 </div>
 </div>
-
-```
     <!-- PROMPT 3: Check my paragraph -->
     <div class="ai-prompt-card">
       <h3>🔍 Check a paragraph I've written</h3>
       <p>Paste a paragraph — the AI will check if it has a clear argument, evidence, and links back to the question.</p>
       <div class="ai-prompt-preview" id="prompt-para">I'm a university student. Please review this paragraph from my assignment:
-```
-
 [PASTE YOUR PARAGRAPH]
 
 The assignment question is: [PASTE QUESTION]
@@ -1529,6 +2014,7 @@ Please check:
 1. Suggest one specific improvement
 
 Do NOT rewrite it for me — just give feedback I can use to improve it myself.</div>
+
 <div class="ai-btn-row">
 <button class="ai-copy-btn" data-copy="prompt-para">📋 Copy prompt</button>
 <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1536,15 +2022,11 @@ Do NOT rewrite it for me — just give feedback I can use to improve it myself.<
 <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
 </div>
 </div>
-
-```
     <!-- PROMPT 4: Explain a concept -->
     <div class="ai-prompt-card">
       <h3>💡 Explain a concept simply</h3>
       <p>Struggling to understand something from your readings? This prompt gets you a plain-English explanation.</p>
       <div class="ai-prompt-preview" id="prompt-explain">Please explain the following concept to me in plain English. I'm a university student and I'm finding it hard to understand from the textbook.
-```
-
 Concept: [PASTE CONCEPT OR TERM]
 
 Context (my subject/course): [OPTIONAL: e.g. Psychology, Business, Nursing]
@@ -1555,6 +2037,7 @@ Please:
 1. Give one real-world example
 1. Explain why it matters for academic writing on this topic
    Keep it under 200 words.</div>
+   
    <div class="ai-btn-row">
    <button class="ai-copy-btn" data-copy="prompt-explain">📋 Copy prompt</button>
    <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1562,14 +2045,11 @@ Please:
    <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
    </div>
    </div>
-   
-   ```
     <!-- PROMPT 5: Referencing help -->
     <div class="ai-prompt-card">
       <h3>📚 Fix my reference</h3>
       <p>Paste a source you've used — the AI will format it correctly in APA 7 for you.</p>
       <div class="ai-prompt-preview" id="prompt-ref">Please format the following source as an APA 7 reference list entry AND an in-text citation.
-   ```
 
 Source details:
 [PASTE WHAT YOU KNOW: author name(s), title, year, journal name, website, DOI, URL — whatever you have]
@@ -1577,6 +2057,7 @@ Source details:
 Source type: [e.g. journal article / book / website / government report]
 
 If any details are missing, tell me what I need to find to complete it correctly. Do not guess missing information.</div>
+
 <div class="ai-btn-row">
 <button class="ai-copy-btn" data-copy="prompt-ref">📋 Copy prompt</button>
 <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1584,24 +2065,21 @@ If any details are missing, tell me what I need to find to complete it correctly
 <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
 </div>
 </div>
-
-```
     <!-- PROMPT 6: Stuck / writer's block -->
     <div class="ai-prompt-card">
       <h3>🌀 I'm stuck — help me start</h3>
       <p>Can't get going? This prompt helps you unstick without the AI writing it for you.</p>
       <div class="ai-prompt-preview" id="prompt-stuck">I'm stuck on my assignment and I need help getting started — not having it written for me.
-```
-
 Assignment: [PASTE QUESTION OR TOPIC]
-What I’ve done so far: [DESCRIBE WHAT YOU HAVE, EVEN IF JUST NOTES]
-Where I’m stuck: [DESCRIBE THE SPECIFIC PROBLEM, e.g. “I don’t know how to start my intro” or “I have 3 points but don’t know which to put first”]
+What I've done so far: [DESCRIBE WHAT YOU HAVE, EVEN IF JUST NOTES]
+Where I'm stuck: [DESCRIBE THE SPECIFIC PROBLEM, e.g. "I don't know how to start my intro" or "I have 3 points but don't know which to put first"]
 
 Please:
 
 1. Help me identify ONE small thing I can do right now to move forward
 1. Ask me 2 questions that might help me think through the problem
    Do NOT write the essay for me. I want to do the work — I just need unsticking.</div>
+   
    <div class="ai-btn-row">
    <button class="ai-copy-btn" data-copy="prompt-stuck">📋 Copy prompt</button>
    <a class="ai-launch-btn claude" href="https://claude.ai" target="_blank" rel="noopener">Open Claude ↗</a>
@@ -1609,17 +2087,15 @@ Please:
    <a class="ai-launch-btn gemini" href="https://gemini.google.com" target="_blank" rel="noopener">Open Gemini ↗</a>
    </div>
    </div>
-   
-   ```
     <div class="ai-tip">
       <strong>⚠️ Heads up:</strong> AI can get facts wrong — always check important claims against your readings or sources. Use AI to help you <em>think and plan</em>, not to replace your own work. Your university's academic integrity policy applies.
     </div>
-   ```
-   
       </div>
     </div>
 
   </section>
+
+</div><!-- /app -->
 
 <!-- BOTTOM NAV -->
 
@@ -1643,6 +2119,8 @@ Please:
   const $ = id => document.getElementById(id);
   const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
+  const safeAdd = (id, evt, fn, opts) => { const el = $(id); if (el) el.addEventListener(evt, fn, opts); };
+
   function showToast(msg) {
     const t = $('toast');
     t.textContent = msg;
@@ -1660,7 +2138,7 @@ Please:
 
   /* ── SETTINGS ──────────────────────────────────────── */
   const SETTINGS_KEY = 'cp_settings';
-  const defaults = { theme:'dark', fontsize:'normal', font:'default', contrast:'normal', motion:'normal' };
+  const defaults = { theme:'dark', fontsize:'normal', font:'default', contrast:'normal', motion:'normal', bionic:'off' };
 
   function loadSettings() { return Object.assign({}, defaults, storage(SETTINGS_KEY) || {}); }
 
@@ -1671,7 +2149,10 @@ Please:
     html.dataset.font     = s.font;
     html.dataset.contrast = s.contrast;
     html.dataset.motion   = s.motion;
+    html.dataset.bionic   = s.bionic;
     qsa('.pill-btn').forEach(b => b.classList.toggle('active', b.dataset.val === s[b.dataset.setting]));
+    if (s.bionic === 'on') applyBionicReading();
+    else removeBionicReading();
   }
 
   function saveSetting(key, val) {
@@ -1681,24 +2162,24 @@ Please:
 
   applySettings(loadSettings());
 
-  $('toggleSettings').addEventListener('click', () => {
+  safeAdd('toggleSettings', 'click', () => {
     $('settingsPanel').classList.toggle('hidden');
     $('toggleSettings').classList.toggle('active');
   });
 
   qsa('.pill-btn').forEach(b => b.addEventListener('click', () => saveSetting(b.dataset.setting, b.dataset.val)));
 
-  $('clearAllData').addEventListener('click', () => {
+  safeAdd('clearAllData', 'click', () => {
     if (confirm('Clear all saved data? This cannot be undone.')) {
       localStorage.clear(); location.reload();
     }
   });
 
   /* ── PANIC ──────────────────────────────────────────── */
-  $('panicTrigger').addEventListener('click', () => $('panicOverlay').classList.add('show'));
-  $('closePanic').addEventListener('click',   () => $('panicOverlay').classList.remove('show'));
-  $('panicToCalm').addEventListener('click',  () => { $('panicOverlay').classList.remove('show'); go('calm'); setTimeout(() => showCalm('breath'), 350); });
-  $('panicOverlay').addEventListener('click', e => { if (e.target === $('panicOverlay')) $('panicOverlay').classList.remove('show'); });
+  safeAdd('panicTrigger', 'click', () => $('panicOverlay').classList.add('show'));
+  safeAdd('closePanic', 'click', () => $('panicOverlay').classList.remove('show'));
+  safeAdd('panicToCalm', 'click', () => { $('panicOverlay').classList.remove('show'); go('calm'); setTimeout(() => showCalm('breath'), 350); });
+  safeAdd('panicOverlay', 'click', e => { if (e.target === $('panicOverlay')) $('panicOverlay').classList.remove('show'); });
 
   /* ── PWA ────────────────────────────────────────────── */
   let deferredPrompt = null;
@@ -1745,7 +2226,7 @@ Please:
     e.preventDefault(); deferredPrompt = e; $('installBtn').disabled = false;
   });
 
-  $('installBtn').addEventListener('click', async () => {
+  safeAdd('installBtn', 'click', async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
@@ -1780,13 +2261,15 @@ Please:
       if (id === 'dump')       renderDump();
       updateStats();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      saveContext();
     } catch (err) {
       console.error('[ClearPath] go("' + id + '") failed:', err);
     }
   }
 
   document.addEventListener('click', e => {
-    const el = e.target.closest('[data-nav]');
+    const t = (e.target && e.target.closest) ? e.target : (e.target && e.target.parentElement);
+    const el = t && t.closest ? t.closest('[data-nav]') : null;
     if (el && !el.closest('.panic-panel')) go(el.dataset.nav);
   });
   document.addEventListener('keydown', e => {
@@ -1799,7 +2282,7 @@ Please:
   const INTENTION_KEY = 'cp_intention';
   const storedIntention = storage(INTENTION_KEY);
   if (storedIntention) $('intentionInput').value = storedIntention;
-  $('intentionInput').addEventListener('input', e => storage(INTENTION_KEY, e.target.value));
+  safeAdd('intentionInput', 'input', e => storage(INTENTION_KEY, e.target.value));
 
   /* ── STATS ──────────────────────────────────────────── */
   function updateStats() {
@@ -1872,11 +2355,12 @@ Please:
     $('dumpInput').value = '';
     renderDump(); updateStats();
     showToast('Thought captured ✓');
+    addXP(5, 'Thought dumped');
   }
 
-  $('dumpAdd').addEventListener('click', addDumpThought);
-  $('dumpInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addDumpThought(); } });
-  $('dumpClear').addEventListener('click', () => {
+  safeAdd('dumpAdd', 'click', addDumpThought);
+  safeAdd('dumpInput', 'keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addDumpThought(); } });
+  safeAdd('dumpClear', 'click', () => {
     if (confirm('Clear all dumped thoughts?')) { saveDumpThoughts([]); renderDump(); updateStats(); }
   });
 
@@ -1898,7 +2382,7 @@ Please:
     { prefix: 'Submit', suffix: 'and take a proper break — you did it' }
   ];
 
-  $('breakTask').addEventListener('click', () => {
+  safeAdd('breakTask', 'click', () => {
     const task = $('bigTask').value.trim();
     if (!task) { showToast('Enter a task first'); return; }
     const steps = MICRO_TEMPLATES.map((t, i) => ({ label: `${t.prefix} your ${t.suffix}`, done: false }));
@@ -1920,6 +2404,7 @@ Please:
         const arr = storage(TASK_MICRO) || [];
         arr[i].done = !arr[i].done;
         storage(TASK_MICRO, arr); renderMicroSteps();
+        if (arr[i].done) addXP(10, 'Micro-step completed');
       });
       list.appendChild(div);
     });
@@ -1957,12 +2442,13 @@ Please:
         items[i].done = e.target.checked;
         row.classList.toggle('done', items[i].done);
         storage(PREP_KEY, items); updateStats();
+        if (items[i].done) addXP(5, 'Prep item done');
       });
       c.appendChild(row);
     });
   }
 
-  $('resetPrep').addEventListener('click', () => { storage(PREP_KEY, PREP_ITEMS.map(t => ({ t, done: false }))); renderPrep(); showToast('Checklist reset ✓'); });
+  safeAdd('resetPrep', 'click', () => { storage(PREP_KEY, PREP_ITEMS.map(t => ({ t, done: false }))); renderPrep(); showToast('Checklist reset ✓'); });
 
   /* ── UNDERSTAND (wizard) ────────────────────────────── */
   const UNDERSTAND_KEY = 'cp_understand';
@@ -2030,12 +2516,12 @@ Please:
     });
   }
 
-  $('wNext0').addEventListener('click', () => { autoSaveUnderstand(); showWizardStep(1); });
-  $('wNext1').addEventListener('click', () => { autoSaveUnderstand(); showWizardStep(2); });
-  $('wNext2').addEventListener('click', () => { autoSaveUnderstand(); showWizardStep(3); });
-  $('wBack1').addEventListener('click', () => showWizardStep(0));
-  $('wBack2').addEventListener('click', () => showWizardStep(1));
-  $('wBack3').addEventListener('click', () => showWizardStep(2));
+  safeAdd('wNext0', 'click', () => { autoSaveUnderstand(); showWizardStep(1); });
+  safeAdd('wNext1', 'click', () => { autoSaveUnderstand(); showWizardStep(2); });
+  safeAdd('wNext2', 'click', () => { autoSaveUnderstand(); showWizardStep(3); });
+  safeAdd('wBack1', 'click', () => showWizardStep(0));
+  safeAdd('wBack2', 'click', () => showWizardStep(1));
+  safeAdd('wBack3', 'click', () => showWizardStep(2));
 
   function saveUnderstand() {
     autoSaveUnderstand();
@@ -2044,9 +2530,10 @@ Please:
     badge.textContent = '✓ Saved';
     clearTimeout(badge._t);
     badge._t = setTimeout(() => badge.textContent = '', 2500);
+    addXP(20, 'Assignment unpacked');
   }
 
-  $('saveUnderstand').addEventListener('click', saveUnderstand);
+  safeAdd('saveUnderstand', 'click', saveUnderstand);
 
   function updateTaskHelp() {
     const k = ($('task').value || '').toLowerCase().trim();
@@ -2064,12 +2551,12 @@ Please:
     chipRow.appendChild(chip);
   });
 
-  $('task').addEventListener('input', updateTaskHelp);
+  safeAdd('task', 'input', updateTaskHelp);
 
   const exCard = $('exampleCard');
-  $('toggleExample').addEventListener('click', () => exCard.classList.toggle('hidden'));
-  $('closeExample').addEventListener('click',  () => exCard.classList.add('hidden'));
-  $('useExample').addEventListener('click', () => {
+  safeAdd('toggleExample', 'click', () => exCard.classList.toggle('hidden'));
+  safeAdd('closeExample', 'click', () => exCard.classList.add('hidden'));
+  safeAdd('useExample', 'click', () => {
     $('brief').value = 'Analyse the impact of social media on adolescent wellbeing in Australia since 2020.';
     $('task').value  = 'analyse'; $('topic').value = 'Social media and adolescent wellbeing';
     $('limit').value = 'Australia; since 2020'; $('wordCount').value = '1500 words';
@@ -2219,7 +2706,6 @@ Please:
     $('cycleTime').className   = 'timer-time' + (cycleMode === 'break' ? ' break' : '');
     $('cycleBar').className    = 'progress-bar' + (cycleMode === 'break' ? ' break' : '');
     $('cycleBar').style.width  = (totalSecs > 0 ? (remaining/totalSecs)*100 : 100) + '%';
-    // session dots
     [0,1,2,3].forEach(i => {
       const dot = $(`sd${i}`);
       if (dot) dot.classList.toggle('done', i < sessionsCompleted);
@@ -2245,6 +2731,7 @@ Please:
           const total = parseInt(storage('cp_sessions') || 0) + 1;
           storage('cp_sessions', total); updateStats();
           showToast('Session done 🎉 Take a real break!');
+          addXP(15, 'Focus session complete');
         }
         updateCycleUI();
       }
@@ -2254,11 +2741,11 @@ Please:
   function stopCycle() { clearInterval(cycleTimer); cycleTimer = null; if ($('cycleHint')) $('cycleHint').textContent = 'Paused.'; }
   function resetCycle() { stopCycle(); cycleMode='work'; sessionsCompleted=0; syncCycle(); if ($('cycleHint')) $('cycleHint').textContent='Start a cycle. Stop early if you need to.'; }
 
-  $('workMin').addEventListener('change', resetCycle);
-  $('breakMin').addEventListener('change', resetCycle);
-  $('cycleStart').addEventListener('click', startCycle);
-  $('cycleStop').addEventListener('click', stopCycle);
-  $('cycleReset').addEventListener('click', resetCycle);
+  safeAdd('workMin', 'change', resetCycle);
+  safeAdd('breakMin', 'change', resetCycle);
+  safeAdd('cycleStart', 'click', startCycle);
+  safeAdd('cycleStop', 'click', stopCycle);
+  safeAdd('cycleReset', 'click', resetCycle);
 
   /* ── FINISH ─────────────────────────────────────────── */
   const FINISH_ITEMS = [
@@ -2328,13 +2815,14 @@ Please:
         items[i].done = e.target.checked;
         row.classList.toggle('done', items[i].done);
         storage(FINISH_KEY, items); updateRing(items); updateStats();
+        if (items[i].done) addXP(5, 'Checklist item done');
       });
       container.appendChild(row);
     });
   }
 
-  $('closeNudge').addEventListener('click', () => $('finishNudge').classList.add('hidden'));
-  $('resetFinish').addEventListener('click', () => { storage(FINISH_KEY, FINISH_ITEMS.map(t => ({ t, done: false }))); initFinish(); showToast('Checklist reset ✓'); });
+  safeAdd('closeNudge', 'click', () => $('finishNudge').classList.add('hidden'));
+  safeAdd('resetFinish', 'click', () => { storage(FINISH_KEY, FINISH_ITEMS.map(t => ({ t, done: false }))); initFinish(); showToast('Checklist reset ✓'); });
 
   /* ── SWIPE NAV (mobile) ─────────────────────────────── */
   let touchStartX = 0, touchStartY = 0;
@@ -2371,6 +2859,288 @@ Please:
       });
     });
   });
+
+  /* ═══════════════════════════════════════════════════════════
+     PHASE 1: NEURODIVERGENT ENHANCEMENTS - JAVASCRIPT
+     ═══════════════════════════════════════════════════════════  */
+
+  // ═══ XP/DOPAMINE SYSTEM ═══
+  let xp = storage('cp_xp') || 0;
+  let level = storage('cp_level') || 1;
+  let streak = storage('cp_streak') || 0;
+  let lastVisit = storage('cp_lastVisit') || null;
+
+  function addXP(amount, reason) {
+    xp += amount;
+    if (xp >= level * 100) {
+      level++;
+      xp = 0;
+      storage('cp_level', level);
+      showAchievement(`Level ${level} Reached! 🎉`);
+    }
+    storage('cp_xp', xp);
+    updateDopamineBar();
+    showToast(`+${amount} XP: ${reason}`);
+  }
+
+  function updateDopamineBar() {
+    $('streakNumber').textContent = streak;
+    $('levelNumber').textContent = level;
+    $('xpText').textContent = `${xp}/${level*100} XP`;
+    $('xpFill').style.width = (xp/(level*100)*100) + '%';
+  }
+
+  function checkStreak() {
+    const today = new Date().toDateString();
+    const last = lastVisit;
+    if (last !== today) {
+      if (last) {
+        const lastDate = new Date(last);
+        const todayDate = new Date(today);
+        const diff = Math.floor((todayDate - lastDate)/(1000*60*60*24));
+        if (diff === 1) {
+          streak++;
+          storage('cp_streak', streak);
+          showAchievement(`${streak} Day Streak! 🔥`);
+        }
+        else if (diff > 1) {
+          streak = 1;
+          storage('cp_streak', streak);
+        }
+      } else {
+        streak = 1;
+        storage('cp_streak', streak);
+      }
+      storage('cp_lastVisit', today);
+      addXP(10, 'Daily login');
+    }
+  }
+
+  function showAchievement(text) {
+    const a = $('achievementToast');
+    $('achievementText').textContent = text;
+    a.classList.add('show');
+    setTimeout(() => a.classList.remove('show'), 4000);
+  }
+
+  // ═══ BATTERY TRACKER ═══
+  qsa('.battery-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      qsa('.battery-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      const battery = parseInt(btn.dataset.battery);
+      storage('cp_battery', battery);
+      const messages = {
+        1: 'Running on empty. Be very gentle with yourself today. Rest is work.',
+        2: 'Low battery. Pick one small thing. Charging counts as productive.',
+        3: 'Medium charge. You can do a couple of focused tasks with breaks.',
+        4: 'Good charge! You can tackle your main work today.',
+        5: 'Fully charged! Great day for complex tasks and deep work.'
+      };
+      $('batteryMessage').textContent = messages[battery];
+      addXP(5, 'Energy check-in');
+    });
+  });
+
+  const savedBattery = storage('cp_battery');
+  if (savedBattery) {
+    const btn = Array.from(qsa('.battery-btn')).find(b => parseInt(b.dataset.battery) === savedBattery);
+    if (btn) btn.click();
+  }
+
+  // ═══ QUICK WINS ═══
+  qsa('.quick-win-item').forEach(item => {
+    item.addEventListener('click', () => {
+      showToast('Great! That\'s a win! 🎉');
+      addXP(15, 'Quick win completed');
+      logSuccess(`Quick win: ${item.textContent.split('~')[0].trim()}`);
+    });
+  });
+
+  // ═══ WHAT NOW SYSTEM ═══
+  function getWhatNowSuggestion() {
+    const battery = storage('cp_battery') || 3;
+    const suggestions = {
+      1: { text: 'Open your document. Just open it. You don\'t need to write.', action: 'open-doc' },
+      2: { text: 'Read the assignment question once. That\'s the only task.', action: 'read-question' },
+      3: { text: 'Write a quick brain dump of what you know about this topic.', action: 'brain-dump' },
+      4: { text: 'Create a simple outline: intro + 3 points + conclusion.', action: 'outline' },
+      5: { text: 'Start writing your first body paragraph. Rough draft is fine.', action: 'write' }
+    };
+    return suggestions[battery] || suggestions[3];
+  }
+
+  $('whatNowFab').addEventListener('click', () => {
+    const sugg = getWhatNowSuggestion();
+    $('whatNowSuggestion').textContent = sugg.text;
+    $('whatNowModal').classList.add('show');
+  });
+
+  $('closeWhatNow').addEventListener('click', () => $('whatNowModal').classList.remove('show'));
+  $('doItBtn').addEventListener('click', () => {
+    showToast('You got this! 💪');
+    $('whatNowModal').classList.remove('show');
+    addXP(10, 'Taking action');
+  });
+  $('tooHardBtn').addEventListener('click', () => {
+    showToast('Let\'s break it smaller...');
+    $('whatNowModal').classList.remove('show');
+    go('dump');
+  });
+  $('cantFocusBtn').addEventListener('click', () => {
+    $('whatNowModal').classList.remove('show');
+    go('calm');
+  });
+
+  // ═══ DISTRACTION CATCHER ═══
+  let currentDistractionType = 'random';
+
+  $('distractionFab').addEventListener('click', () => {
+    $('distractionModal').classList.add('show');
+    $('distractionInput').focus();
+  });
+
+  $('closeDistraction').addEventListener('click', () => {
+    $('distractionModal').classList.remove('show');
+    $('distractionInput').value = '';
+  });
+
+  qsa('.distraction-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      qsa('.distraction-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      currentDistractionType = chip.dataset.type;
+    });
+  });
+
+  $('captureThought').addEventListener('click', () => {
+    const thought = $('distractionInput').value.trim();
+    if (!thought) return;
+
+    let distractions = storage('cp_distractions') || [];
+    distractions.unshift({ type: currentDistractionType, thought, time: Date.now() });
+    storage('cp_distractions', distractions);
+
+    showToast('Thought captured! ✅');
+    addXP(5, 'Distraction captured');
+    $('distractionModal').classList.remove('show');
+    $('distractionInput').value = '';
+    qsa('.distraction-chip').forEach(c => c.classList.remove('selected'));
+  });
+
+  // ═══ SUCCESS JOURNAL ═══
+  function logSuccess(text) {
+    let wins = storage('cp_wins') || [];
+    wins.unshift({ text, time: Date.now() });
+    storage('cp_wins', wins);
+    renderSuccesses();
+  }
+
+  function renderSuccesses() {
+    const wins = storage('cp_wins') || [];
+    const today = wins.filter(w => {
+      const wDate = new Date(w.time).toDateString();
+      return wDate === new Date().toDateString();
+    });
+
+    if (today.length > 0) {
+      $('successJournal').classList.remove('hidden');
+      $('successList').innerHTML = today.map(w =>
+        `<div class="success-entry"><span class="success-icon">✨</span>${w.text}</div>`
+      ).join('');
+    }
+  }
+
+  $('addWin').addEventListener('click', () => {
+    const win = prompt('What\'s a win from today?');
+    if (win) { logSuccess(win); addXP(10, 'Win logged'); }
+  });
+
+  // ═══ FOCUS MODES ═══
+  qsa('.focus-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      qsa('.focus-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const mode = btn.dataset.mode;
+      document.body.className = mode !== 'normal' ? `focus-${mode}` : '';
+      storage('cp_focusMode', mode);
+      showToast(`${btn.textContent} mode activated`);
+    });
+  });
+
+  const savedMode = storage('cp_focusMode');
+  if (savedMode && savedMode !== 'normal') {
+    const btn = Array.from(qsa('.focus-mode-btn')).find(b => b.dataset.mode === savedMode);
+    if (btn) btn.click();
+  }
+
+  // ═══ CONTEXT RESTORATION ═══
+  function saveContext() {
+    const active = Array.from(qsa('.screen')).find(s => s.classList.contains('active'));
+    if (active) storage('cp_lastScreen', active.id.replace('screen-',''));
+  }
+
+  function restoreContext() {
+    const last = storage('cp_lastScreen');
+    if (last && last !== 'home') {
+      $('restoreText').textContent = `Pick up where you left off? (You were on: ${last})`;
+      $('restoreBanner').classList.add('show');
+    }
+  }
+
+  $('restoreBtn').addEventListener('click', () => {
+    const last = storage('cp_lastScreen');
+    if (last) go(last);
+    $('restoreBanner').classList.remove('show');
+  });
+
+  // Auto-save context periodically
+  setInterval(saveContext, 30000);
+
+  // ═══ BIONIC READING ═══
+  function bionicWord(word) {
+    if (word.length <= 3) return `<b>${word.slice(0, 1)}</b>${word.slice(1)}`;
+    const boldLen = Math.ceil(word.length * 0.4);
+    return `<b>${word.slice(0, boldLen)}</b>${word.slice(boldLen)}`;
+  }
+
+  function applyBionicReading() {
+    const selectors = [
+      '.card-head-text p', '.block p', '.text-small', '.text-tiny',
+      '.wizard-hint', '.insight-text', '.kind-words div',
+      '.check-label', '.tile-label', '.tile-hint', '.feeling-tile',
+      '.support-card p', '.ai-prompt-card p', '.ref-block',
+      '.intention-input', '.brain-dump-area', '.microstep-text',
+      '.dump-thought-text', '.ai-tip', '.panic-breath', '.panic-crisis p',
+      'label', '.summary-box', '.battery-message', '.quick-win-item',
+      '.success-entry', '.nudge-text'
+    ];
+    
+    selectors.forEach(sel => {
+      qsa(sel).forEach(el => {
+        if (el.classList.contains('bionic-processed')) return;
+        const text = el.textContent;
+        const words = text.split(/(\s+)/);
+        const bionic = words.map(w => w.trim() ? bionicWord(w) : w).join('');
+        el.innerHTML = `<span class="bionic-text">${bionic}</span>`;
+        el.classList.add('bionic-processed');
+      });
+    });
+  }
+
+  function removeBionicReading() {
+    qsa('.bionic-processed').forEach(el => {
+      const text = el.textContent;
+      el.innerHTML = text;
+      el.classList.remove('bionic-processed');
+    });
+  }
+
+  // ═══ INITIALIZE PHASE 1 ═══
+  checkStreak();
+  updateDopamineBar();
+  renderSuccesses();
+  restoreContext();
 
   /* ── INIT ───────────────────────────────────────────── */
   go('home');
