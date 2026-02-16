@@ -950,43 +950,43 @@ input[type=checkbox] {
   display: block; transform: translateX(0);
 }
 
-/* Spoon Tracker */
-.spoon-tracker {
-  background: linear-gradient(135deg, var(--amber-dim), var(--green-dim));
+/* Battery Tracker */
+.battery-tracker {
+  background: linear-gradient(135deg, var(--sky-dim), var(--green-dim));
   border: 1px solid var(--border-hi);
   border-radius: var(--r-lg);
   padding: 18px 20px; margin-bottom: 16px;
 }
-.spoon-label {
+.battery-label {
   font-size: 12px; font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .8px; color: var(--amber);
+  letter-spacing: .8px; color: var(--sky);
   margin-bottom: 10px;
 }
-.spoon-selector {
+.battery-selector {
   display: flex; gap: 8px;
   justify-content: center; flex-wrap: wrap;
 }
-.spoon-btn {
+.battery-btn {
   width: 50px; height: 50px; border-radius: 50%;
   border: 2px solid var(--border);
-  background: var(--surface2); font-size: 24px;
+  background: var(--surface2); font-size: 20px;
   cursor: pointer;
   display: flex; align-items: center;
   justify-content: center;
   transition: all .2s var(--ease-spring);
 }
-.spoon-btn:hover {
+.battery-btn:hover {
   transform: scale(1.1);
-  border-color: var(--amber);
+  border-color: var(--sky);
 }
-.spoon-btn.selected {
-  background: var(--amber-dim);
-  border-color: var(--amber);
+.battery-btn.selected {
+  background: var(--sky-dim);
+  border-color: var(--sky);
   transform: scale(1.15);
-  box-shadow: 0 4px 16px rgba(232,192,122,.3);
+  box-shadow: 0 4px 16px rgba(130,196,216,.3);
 }
-.spoon-message {
+.battery-message {
   margin-top: 12px; font-size: 13px;
   color: var(--muted); text-align: center;
   font-style: italic; min-height: 20px;
@@ -1251,7 +1251,8 @@ body.focus-laser .screen.active > .card:not(:first-child) {
       </svg>
       <div class="app-brand">
         <div class="app-title">Clear Path</div>
-        <div class="app-subtitle">Academic Skills · ND Edition</div>
+                <div class="app-subtitle">Academic Skills</div>
+
       </div>
     </div>
     <div class="settings-bar">
@@ -1310,19 +1311,19 @@ body.focus-laser .screen.active > .card:not(:first-child) {
     <button class="restore-btn" id="restoreBtn">Continue →</button>
   </div>
 
-  <!-- ═══ PHASE 1: SPOON TRACKER ═══ -->
-
-  <div class="spoon-tracker">
-    <div class="spoon-label">🥄 How many spoons do you have today?</div>
-    <div class="spoon-selector">
-      <button class="spoon-btn" data-spoons="1">🥄</button>
-      <button class="spoon-btn" data-spoons="2">🥄🥄</button>
-      <button class="spoon-btn" data-spoons="3">🥄🥄🥄</button>
-      <button class="spoon-btn" data-spoons="4">🥄🥄🥄🥄</button>
-      <button class="spoon-btn" data-spoons="5">🥄🥄🥄🥄🥄</button>
+    <!-- ═══ PHASE 1: BATTERY TRACKER ═══ -->
+  <div class="battery-tracker">
+    <div class="battery-label">🔋 What's your battery level today?</div>
+    <div class="battery-selector">
+      <button class="battery-btn" data-battery="1">🪫</button>
+      <button class="battery-btn" data-battery="2">🔋</button>
+      <button class="battery-btn" data-battery="3">🔋🔋</button>
+      <button class="battery-btn" data-battery="4">🔋🔋🔋</button>
+      <button class="battery-btn" data-battery="5">⚡🔋🔋🔋</button>
     </div>
-    <div class="spoon-message" id="spoonMessage"></div>
+    <div class="battery-message" id="batteryMessage"></div>
   </div>
+
 
   <!-- ═══ PHASE 1: DOPAMINE BAR ═══ -->
 
@@ -1791,10 +1792,12 @@ body.focus-laser .screen.active > .card:not(:first-child) {
       <span class="badge green">Free · All students</span>
     </div>
     <div class="support-card">
+          <div class="support-card">
       <h3>💬 Studiosity</h3>
-      <p>Online 24/7 draft feedback service. Submit a draft essay and get written feedback within hours. Many Australian universities provide this for free.</p>
-      <a class="support-link" href="https://www.studiosity.com" target="_blank" rel="noopener">Visit Studiosity ↗</a>
+      <p>Online 24/7 draft feedback service. Submit a draft essay and get written feedback within hours. Many Australian universities provide this for free. Access Studiosity through your student portal.</p>
+      <span class="badge sky">24/7 · Via student portal</span>
     </div>
+
     <div class="support-card">
       <h3>📖 Your library</h3>
       <p>Librarians are research specialists — not just book-keepers. Book a research consultation for help finding sources for your assignment.</p>
@@ -2913,28 +2916,28 @@ Please:
     setTimeout(() => a.classList.remove('show'), 4000);
   }
 
-  // ═══ SPOON TRACKER ═══
-  qsa('.spoon-btn').forEach(btn => {
+    // ═══ BATTERY TRACKER ═══
+  qsa('.battery-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      qsa('.spoon-btn').forEach(b => b.classList.remove('selected'));
+      qsa('.battery-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      const spoons = parseInt(btn.dataset.spoons);
-      storage('cp_spoons', spoons);
+      const battery = parseInt(btn.dataset.battery);
+      storage('cp_battery', battery);
       const messages = {
-        1: 'Survival mode. Be very gentle with yourself today. Tiny steps only.',
-        2: 'Low energy. Pick one small thing. Rest is productive.',
-        3: 'Medium energy. You can do a couple of focused tasks with breaks.',
-        4: 'Good energy! You can tackle your main work today.',
-        5: 'High energy! Great day for complex tasks and deep work.'
+        1: 'Running on empty. Be very gentle with yourself today. Rest is work.',
+        2: 'Low battery. Pick one small thing. Charging counts as productive.',
+        3: 'Medium charge. You can do a couple of focused tasks with breaks.',
+        4: 'Good charge! You can tackle your main work today.',
+        5: 'Fully charged! Great day for complex tasks and deep work.'
       };
-      $('spoonMessage').textContent = messages[spoons];
+      $('batteryMessage').textContent = messages[battery];
       addXP(5, 'Energy check-in');
     });
   });
 
-  const savedSpoons = storage('cp_spoons');
-  if (savedSpoons) {
-    const btn = Array.from(qsa('.spoon-btn')).find(b => parseInt(b.dataset.spoons) === savedSpoons);
+  const savedBattery = storage('cp_battery');
+  if (savedBattery) {
+    const btn = Array.from(qsa('.battery-btn')).find(b => parseInt(b.dataset.battery) === savedBattery);
     if (btn) btn.click();
   }
 
